@@ -7,30 +7,22 @@
   <meta name="theme-color" content="#0a0a0a">
   <title>Azan Haider • Futuristic Creative Portfolio</title>
 
-  <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://unpkg.com">
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com" async></script>
-
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <style>
-    /* ===== DARK PREMIUM THEME - NO PURPLE, NO BLUE-HEAVY GRADIENTS ===== */
     :root {
       --bg-primary: #0a0a0a;
-      --bg-secondary: #111111;
       --bg-card: rgba(20, 20, 20, 0.7);
       --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(255, 255, 255, 0.15);
       --text-primary: #f5f5f5;
       --text-secondary: #a0a0a0;
       --accent-primary: #ff6b35;
@@ -53,9 +45,7 @@
     }
 
     @media (pointer: coarse) {
-      body {
-        cursor: auto;
-      }
+      body { cursor: auto; }
     }
 
     .font-orbitron { 
@@ -66,7 +56,6 @@
       font-family: 'Space Grotesk', system-ui, sans-serif; 
     }
 
-    /* Glass card - dark premium */
     .glass-card {
       background: var(--bg-card);
       backdrop-filter: blur(var(--glass-blur));
@@ -78,7 +67,6 @@
       transform: translateZ(0);
     }
 
-    /* Glow text - warm orange accent */
     .glow-text {
       text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(255, 107, 53, 0.3);
     }
@@ -87,7 +75,42 @@
       box-shadow: 0 0 20px var(--accent-glow), 0 0 0 1px rgba(255, 107, 53, 0.2) inset;
     }
 
-    /* Custom cursor - warm orange gradient */
+    /* Profile picture styling */
+    .profile-pic-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-pic {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255, 107, 53, 0.5);
+      box-shadow: 0 0 30px rgba(255, 107, 53, 0.3), 0 0 60px rgba(255, 107, 53, 0.1);
+      transition: all 0.3s ease;
+      background: #1a1a1a;
+    }
+
+    .profile-pic:hover {
+      box-shadow: 0 0 40px rgba(255, 107, 53, 0.5), 0 0 80px rgba(255, 107, 53, 0.2);
+      transform: scale(1.05);
+    }
+
+    @media (min-width: 768px) {
+      .profile-pic {
+        width: 240px;
+        height: 240px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .profile-pic {
+        width: 280px;
+        height: 280px;
+      }
+    }
+
     .custom-cursor {
       position: fixed;
       width: 28px;
@@ -103,9 +126,7 @@
       opacity: 0;
     }
 
-    .custom-cursor.active {
-      opacity: 1;
-    }
+    .custom-cursor.active { opacity: 1; }
 
     .cursor-hover {
       width: 48px;
@@ -116,32 +137,18 @@
     }
 
     @media (max-width: 768px), (pointer: coarse) {
-      .custom-cursor {
-        display: none;
-      }
+      .custom-cursor { display: none; }
     }
 
-    /* Scrollbar styling - dark theme */
-    ::-webkit-scrollbar { 
-      width: 6px; 
-    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #1a1a1a; }
+    ::-webkit-scrollbar-thumb { background: #ff6b35; border-radius: 10px; }
 
-    ::-webkit-scrollbar-track { 
-      background: #1a1a1a; 
-    }
-
-    ::-webkit-scrollbar-thumb { 
-      background: #ff6b35; 
-      border-radius: 10px; 
-    }
-
-    /* Firefox scrollbar */
     * {
       scrollbar-width: thin;
       scrollbar-color: #ff6b35 #1a1a1a;
     }
 
-    /* Canvas */
     #three-canvas {
       position: fixed;
       top: 0;
@@ -152,9 +159,7 @@
       transition: opacity 0.8s ease;
     }
 
-    #three-canvas.loaded {
-      opacity: 1;
-    }
+    #three-canvas.loaded { opacity: 1; }
 
     section {
       position: relative;
@@ -172,10 +177,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .hover-lift:hover {
-        transform: none;
-      }
-
+      .hover-lift:hover { transform: none; }
       * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
@@ -183,7 +185,6 @@
       }
     }
 
-    /* Loading overlay */
     #loading-overlay {
       position: fixed;
       inset: 0;
@@ -213,14 +214,12 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Focus styles */
     *:focus-visible {
       outline: 3px solid #ff6b35;
       outline-offset: 2px;
       border-radius: 8px;
     }
 
-    /* Skip link */
     .skip-link {
       position: absolute;
       top: -100%;
@@ -235,11 +234,8 @@
       font-weight: 600;
     }
 
-    .skip-link:focus {
-      top: 0;
-    }
+    .skip-link:focus { top: 0; }
 
-    /* Button hover effects */
     .btn-primary {
       background: linear-gradient(135deg, #ff6b35, #ff8c42);
       box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
@@ -249,13 +245,11 @@
       box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
     }
 
-    /* Progress bar colors */
     .progress-bar-accent {
       background: linear-gradient(135deg, #ff6b35, #ff8c42);
       box-shadow: 0 0 12px rgba(255, 107, 53, 0.3);
     }
 
-    /* Gradient text - warm only */
     .text-gradient-warm {
       background: linear-gradient(135deg, #ff6b35, #ff8c42, #ffaa66);
       -webkit-background-clip: text;
@@ -263,35 +257,68 @@
       background-clip: text;
     }
 
+    /* Profile image fallback styling */
+    .profile-placeholder {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+
     @media (max-width: 768px) {
-      .glass-card {
-        border-radius: 1.5rem;
-      }
+      .glass-card { border-radius: 1.5rem; }
     }
   </style>
 </head>
 <body class="antialiased" role="document">
 
-  <!-- Skip Navigation Link -->
   <a href="#main-content" class="skip-link font-space text-sm">Skip to main content</a>
 
-  <!-- Loading Overlay -->
   <div id="loading-overlay" aria-label="Loading" role="alert">
     <div class="loader"></div>
   </div>
 
-  <!-- Custom Cursor -->
   <div class="custom-cursor" id="cursor" aria-hidden="true"></div>
 
-  <!-- Three.js Canvas -->
   <canvas id="three-canvas" aria-hidden="true"></canvas>
 
-  <!-- Main Content -->
   <main id="main-content" class="relative z-10 w-full" role="main">
 
-    <!-- Hero Section -->
+    <!-- Hero Section - WITH YOUR PICTURE -->
     <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 relative" aria-label="Hero section">
       <div class="glass-card p-6 sm:p-8 md:p-14 max-w-4xl w-full mx-auto transition-all">
+        
+        <!-- YOUR PICTURE HERE -->
+        <div class="mb-6 flex justify-center">
+          <div class="profile-pic-wrapper">
+            <!-- 
+              ============================================
+              YAHAN APNI PICTURE KA URL LAGAO
+              Replace the src below with your image URL
+              Example: src="https://example.com/your-photo.jpg"
+              ============================================
+            -->
+            <img 
+              src="pic.png" 
+              alt="Muhammad Azan Haider - Young Creative Designer" 
+              class="profile-pic"
+              id="profileImage"
+              onerror="this.style.display='none'; this.parentElement.querySelector('.profile-placeholder').style.display='flex';"
+              loading="eager"
+            >
+            <!-- Fallback agar image load na ho -->
+            <div 
+              class="profile-pic profile-placeholder" 
+              id="profileFallback" 
+              style="display: none;"
+              aria-hidden="true"
+            >
+              🧑‍🎨
+            </div>
+          </div>
+        </div>
+
         <div class="mb-4 inline-block px-4 sm:px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs sm:text-sm font-space tracking-widest text-gray-300 border border-white/10" role="status">
           ✦ YOUNG CREATIVE MIND ✦
         </div>
@@ -329,7 +356,7 @@
       </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section - WITH ANOTHER PICTURE PLACEHOLDER -->
     <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="About me">
       <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
         <div class="glass-card p-6 sm:p-8 md:p-10 order-2 md:order-1">
@@ -344,9 +371,29 @@
           </div>
         </div>
 
+        <!-- About section picture -->
         <div class="glass-card p-6 sm:p-8 flex justify-center order-1 md:order-2 relative" aria-hidden="true">
-          <div class="w-36 h-36 sm:w-48 sm:h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-6xl sm:text-7xl md:text-8xl shadow-2xl" style="box-shadow: 0 0 40px rgba(255,107,53,0.3);">
-            🧑‍🎨
+          <div class="profile-pic-wrapper">
+            <!-- 
+              ============================================
+              YAHAN BHI APNI PICTURE LAGA SAKTE HO
+              Ya same picture ka URL use karo
+              ============================================
+            -->
+            <img 
+              src="YOUR_PHOTO_URL_HERE" 
+              alt="Azan Haider - Creative Journey" 
+              class="profile-pic"
+              onerror="this.style.display='none'; this.parentElement.querySelector('.profile-placeholder').style.display='flex';"
+              loading="lazy"
+            >
+            <div 
+              class="profile-pic profile-placeholder" 
+              style="display: none;"
+              aria-hidden="true"
+            >
+              🧑‍🎨
+            </div>
           </div>
         </div>
       </div>
@@ -391,20 +438,28 @@
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Projects Section - WITH PICTURE PLACEHOLDER FOR CANVA WORK -->
     <section id="projects" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Projects">
       <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-center text-gradient-warm mb-8 sm:mb-10">✨ 100+ Canva Creations</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all duration-300" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">🎨</div>
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl overflow-hidden" aria-hidden="true">
+            <!-- Agar yahan apni koi design ki picture lagani ho toh -->
+            <img src="YOUR_DESIGN_IMAGE_URL" alt="Poster Art Design" class="w-full h-full object-cover rounded-2xl" onerror="this.style.display='none'; this.parentElement.innerHTML='🎨';">
+            <span class="fallback-emoji">🎨</span>
+          </div>
           <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Poster Art</p>
         </div>
         <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">📱</div>
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">
+            <span class="fallback-emoji">📱</span>
+          </div>
           <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Social Media</p>
         </div>
         <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">📚</div>
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">
+            <span class="fallback-emoji">📚</span>
+          </div>
           <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Presentations</p>
         </div>
       </div>
@@ -524,7 +579,6 @@
   </script>
 
   <script type="module">
-    // ===== THREE.JS SETUP - DARK THEME WITH ORANGE ACCENT =====
     import * as THREE from 'three';
 
     const CONFIG = {
@@ -545,24 +599,17 @@
     let isSceneReady = false;
 
     function cleanup() {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       if (renderer) {
         renderer.dispose();
         renderer.forceContextLoss();
       }
-
       if (scene) {
         scene.traverse((object) => {
           if (object.geometry) object.geometry.dispose();
           if (object.material) {
-            if (Array.isArray(object.material)) {
-              object.material.forEach(material => material.dispose());
-            } else {
-              object.material.dispose();
-            }
+            if (Array.isArray(object.material)) object.material.forEach(m => m.dispose());
+            else object.material.dispose();
           }
         });
         scene.clear();
@@ -571,16 +618,11 @@
 
     async function initThreeJS() {
       try {
-        if (!window.WebGLRenderingContext) {
-          throw new Error('WebGL not supported');
-        }
+        if (!window.WebGLRenderingContext) throw new Error('WebGL not supported');
 
         renderer = new THREE.WebGLRenderer({ 
-          canvas, 
-          alpha: true, 
-          antialias: window.innerWidth > 768,
-          powerPreference: 'high-performance',
-          failIfMajorPerformanceCaveat: false
+          canvas, alpha: true, antialias: window.innerWidth > 768,
+          powerPreference: 'high-performance', failIfMajorPerformanceCaveat: false
         });
 
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -591,66 +633,48 @@
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
         camera.position.set(0, 1.5, 7);
 
-        // Warm lighting
         const ambientLight = new THREE.AmbientLight(0x331100, 0.5);
         scene.add(ambientLight);
-
         const dirLight = new THREE.DirectionalLight(0xffaa66, 1.2);
         dirLight.position.set(1, 3, 2);
         scene.add(dirLight);
-
         const pointLight = new THREE.PointLight(0xff6b35, 0.8, 10);
         pointLight.position.set(-2, 1, 3);
         scene.add(pointLight);
 
-        // Creative rotating cube - warm orange
         const geometry = new THREE.BoxGeometry(CONFIG.cubeSize, CONFIG.cubeSize, CONFIG.cubeSize);
         const material = new THREE.MeshPhysicalMaterial({
-          color: 0xff6b35,
-          emissive: new THREE.Color(0x331100),
-          roughness: 0.3,
-          metalness: 0.2,
-          transparent: true,
-          opacity: 0.9,
-          clearcoat: 0.8,
-          clearcoatRoughness: 0.1,
+          color: 0xff6b35, emissive: new THREE.Color(0x331100),
+          roughness: 0.3, metalness: 0.2, transparent: true, opacity: 0.9,
+          clearcoat: 0.8, clearcoatRoughness: 0.1,
         });
 
         creativeCube = new THREE.Mesh(geometry, material);
         creativeCube.position.y = 0.2;
         scene.add(creativeCube);
 
-        // Wireframe - warm white
         const wireframe = new THREE.LineSegments(
           new THREE.EdgesGeometry(geometry),
           new THREE.LineBasicMaterial({ color: 0xffccaa })
         );
         creativeCube.add(wireframe);
 
-        // Floating particles - orange
         const particlesGeo = new THREE.BufferGeometry();
         const posArray = new Float32Array(CONFIG.particlesCount * 3);
-
         for (let i = 0; i < CONFIG.particlesCount * 3; i += 3) {
           posArray[i] = (Math.random() - 0.5) * 9;
           posArray[i + 1] = (Math.random() - 0.5) * 5;
           posArray[i + 2] = (Math.random() - 0.5) * 6;
         }
-
         particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
         const particlesMat = new THREE.PointsMaterial({
-          color: 0xffaa66,
-          size: 0.05,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
+          color: 0xffaa66, size: 0.05, blending: THREE.AdditiveBlending, depthWrite: false,
         });
-
         particles = new THREE.Points(particlesGeo, particlesMat);
         scene.add(particles);
 
-        canvas.addEventListener('webglcontextlost', handleContextLost, false);
-        canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
+        canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); cancelAnimationFrame(animationFrameId); isSceneReady = false; }, false);
+        canvas.addEventListener('webglcontextrestored', () => { isSceneReady = true; lastFrameTime = performance.now(); animate(); }, false);
 
         isSceneReady = true;
         canvas.classList.add('loaded');
@@ -662,57 +686,32 @@
 
         lastFrameTime = performance.now();
         animate();
-
       } catch (error) {
         console.error('Three.js initialization failed:', error);
-        handleInitializationError();
+        canvas.style.display = 'none';
+        loadingOverlay.classList.add('hidden');
+        document.body.style.background = '#0a0a0a';
       }
-    }
-
-    function handleContextLost(event) {
-      event.preventDefault();
-      cancelAnimationFrame(animationFrameId);
-      isSceneReady = false;
-    }
-
-    function handleContextRestored() {
-      isSceneReady = true;
-      lastFrameTime = performance.now();
-      animate();
-    }
-
-    function handleInitializationError() {
-      canvas.style.display = 'none';
-      loadingOverlay.classList.add('hidden');
-      document.body.style.background = '#0a0a0a';
-      console.warn('3D scene failed to load. Using fallback design.');
     }
 
     function animate(currentTime = performance.now()) {
       if (!isSceneReady) return;
-
       animationFrameId = requestAnimationFrame(animate);
-
       const deltaTime = currentTime - lastFrameTime;
       if (deltaTime < CONFIG.frameInterval) return;
-
       lastFrameTime = currentTime - (deltaTime % CONFIG.frameInterval);
-
       try {
         creativeCube.rotation.x += 0.004;
         creativeCube.rotation.y += 0.007;
         particles.rotation.y += 0.0003;
         particles.rotation.x += 0.0002;
-
         if (CONFIG.enableMouseInteraction) {
           creativeCube.rotation.x += mouseY * 0.002;
           creativeCube.rotation.y += mouseX * 0.002;
           particles.rotation.x += mouseY * 0.0002;
         }
-
         renderer.render(scene, camera);
       } catch (error) {
-        console.error('Render error:', error);
         isSceneReady = false;
         cancelAnimationFrame(animationFrameId);
       }
@@ -720,9 +719,7 @@
 
     let mouseThrottleTimeout;
     window.addEventListener('mousemove', (e) => {
-      if (!CONFIG.enableMouseInteraction) return;
-      if (mouseThrottleTimeout) return;
-
+      if (!CONFIG.enableMouseInteraction || mouseThrottleTimeout) return;
       mouseThrottleTimeout = setTimeout(() => {
         mouseX = (e.clientX / window.innerWidth) * 2 - 1;
         mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -733,7 +730,6 @@
     let resizeTimeout;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout);
-
       resizeTimeout = setTimeout(() => {
         if (!renderer || !camera) return;
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -747,40 +743,23 @@
     initThreeJS();
   </script>
 
-  <!-- GSAP Animations & Interactions -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // ===== CUSTOM CURSOR =====
       const cursor = document.getElementById('cursor');
       const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
       if (!isTouchDevice && cursor) {
         let cursorVisible = false;
-
-        document.addEventListener('mouseenter', () => {
-          cursorVisible = true;
-          cursor.classList.add('active');
-        });
-
-        document.addEventListener('mouseleave', () => {
-          cursorVisible = false;
-          cursor.classList.remove('active');
-        });
-
+        document.addEventListener('mouseenter', () => { cursorVisible = true; cursor.classList.add('active'); });
+        document.addEventListener('mouseleave', () => { cursorVisible = false; cursor.classList.remove('active'); });
         document.addEventListener('mousemove', (e) => {
           if (!cursorVisible) return;
-          requestAnimationFrame(() => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-          });
+          requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
         }, { passive: true });
-
-        const interactiveElements = document.querySelectorAll('button, a, .hover-lift, .glass-card, input, textarea, [role="button"]');
-        interactiveElements.forEach(el => {
+        document.querySelectorAll('button, a, .hover-lift, .glass-card, input, textarea, [role="button"]').forEach(el => {
           el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
           el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
         });
-
         const threeCanvas = document.getElementById('three-canvas');
         if (threeCanvas) {
           threeCanvas.addEventListener('mouseenter', () => cursor.style.opacity = '0');
@@ -788,148 +767,79 @@
         }
       }
 
-      // ===== AUDIO SYSTEM =====
-      let audioCtx = null;
-      let audioEnabled = false;
-
+      let audioCtx = null, audioEnabled = false;
       function initAudio() {
         if (audioCtx) return;
         try {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          audioCtx = new AudioContext();
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
           if (audioCtx.state === 'suspended') audioCtx.resume();
           audioEnabled = true;
-        } catch (error) {
-          console.warn('Web Audio API not supported:', error);
-          audioEnabled = false;
-        }
+        } catch (e) {}
       }
-
-      function playSound(frequency = 800, duration = 0.15, volume = 0.06) {
+      function playSound(f = 800, d = 0.15, v = 0.06) {
         if (!audioEnabled || !audioCtx) return;
         try {
           if (audioCtx.state === 'suspended') audioCtx.resume();
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-          osc.type = 'sine';
-          gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-          osc.start(audioCtx.currentTime);
-          osc.stop(audioCtx.currentTime + duration);
-          osc.onended = () => { osc.disconnect(); gain.disconnect(); };
-        } catch (error) {}
+          const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+          o.connect(g); g.connect(audioCtx.destination);
+          o.frequency.setValueAtTime(f, audioCtx.currentTime);
+          g.gain.setValueAtTime(v, audioCtx.currentTime);
+          g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
+          o.start(); o.stop(audioCtx.currentTime + d);
+        } catch (e) {}
       }
-
-      function playClickSound() { playSound(800, 0.15, 0.06); }
-      function playHoverSound() { playSound(1200, 0.1, 0.04); }
-
-      ['click', 'touchstart', 'keydown'].forEach(eventType => {
-        document.addEventListener(eventType, () => initAudio(), { once: true });
-      });
-
+      ['click', 'touchstart', 'keydown'].forEach(ev => document.addEventListener(ev, initAudio, { once: true }));
       document.querySelectorAll('button, a, .hover-lift, [role="button"]').forEach(el => {
-        el.addEventListener('click', (e) => { if (e.target.type !== 'submit') playClickSound(); });
-        el.addEventListener('mouseenter', playHoverSound);
-        el.addEventListener('focus', playHoverSound);
+        el.addEventListener('click', (e) => { if (e.target.type !== 'submit') playSound(800, 0.15, 0.06); });
+        el.addEventListener('mouseenter', () => playSound(1200, 0.1, 0.04));
+        el.addEventListener('focus', () => playSound(1200, 0.1, 0.04));
       });
 
-      // ===== TYPING ANIMATION =====
       const typedEl = document.getElementById('typed-subtext');
       if (typedEl) {
         const phrases = ["Creative Designer", "Future AI Expert", "100+ Canva Posts", "10-year-old Innovator"];
-        let phraseIndex = 0, charIndex = 0, currentPhrase = '', isDeleting = false, typeTimeout;
-
+        let pi = 0, ci = 0, cp = '', del = false, to;
         function typeLoop() {
-          const full = phrases[phraseIndex];
-          if (isDeleting) currentPhrase = full.substring(0, charIndex--);
-          else currentPhrase = full.substring(0, charIndex++);
-          typedEl.textContent = currentPhrase;
-
-          let speed;
-          if (!isDeleting && charIndex === full.length) { speed = 1500; isDeleting = true; }
-          else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; speed = 300; }
-          else speed = isDeleting ? 40 : 80;
-
-          typeTimeout = setTimeout(typeLoop, speed);
+          const full = phrases[pi];
+          cp = del ? full.substring(0, ci--) : full.substring(0, ci++);
+          typedEl.textContent = cp;
+          let sp;
+          if (!del && ci === full.length) { sp = 1500; del = true; }
+          else if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; sp = 300; }
+          else sp = del ? 40 : 80;
+          to = setTimeout(typeLoop, sp);
         }
         typeLoop();
-        window.addEventListener('beforeunload', () => clearTimeout(typeTimeout));
+        window.addEventListener('beforeunload', () => clearTimeout(to));
       }
 
-      // ===== FORM VALIDATION =====
-      const contactForm = document.getElementById('contact-form');
-      if (contactForm) {
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const messageInput = document.getElementById('message');
-
-        const validators = {
-          name: { validate: (v) => v.trim().length >= 2, message: 'Please enter your name (min 2 characters)' },
-          email: { validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Please enter a valid email address' },
-          message: { validate: (v) => v.trim().length >= 10, message: 'Please enter a message (min 10 characters)' }
+      const form = document.getElementById('contact-form');
+      if (form) {
+        const n = document.getElementById('name'), e = document.getElementById('email'), m = document.getElementById('message');
+        const v = {
+          name: { validate: (x) => x.trim().length >= 2, message: 'Please enter your name (min 2 characters)' },
+          email: { validate: (x) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x), message: 'Please enter a valid email address' },
+          message: { validate: (x) => x.trim().length >= 10, message: 'Please enter a message (min 10 characters)' }
         };
-
-        function showError(input, message) {
-          const errorSpan = input.parentElement.querySelector('.error-message');
-          if (errorSpan) { errorSpan.textContent = message; errorSpan.classList.remove('hidden'); }
-          input.setAttribute('aria-invalid', 'true');
-          input.classList.add('border-red-400');
-        }
-
-        function clearError(input) {
-          const errorSpan = input.parentElement.querySelector('.error-message');
-          if (errorSpan) errorSpan.classList.add('hidden');
-          input.removeAttribute('aria-invalid');
-          input.classList.remove('border-red-400');
-        }
-
-        function validateField(input, validator) {
-          if (!validator.validate(input.value)) { showError(input, validator.message); return false; }
-          else { clearError(input); return true; }
-        }
-
-        nameInput?.addEventListener('input', () => validateField(nameInput, validators.name));
-        emailInput?.addEventListener('input', () => validateField(emailInput, validators.email));
-        messageInput?.addEventListener('input', () => validateField(messageInput, validators.message));
-        nameInput?.addEventListener('blur', () => validateField(nameInput, validators.name));
-        emailInput?.addEventListener('blur', () => validateField(emailInput, validators.email));
-        messageInput?.addEventListener('blur', () => validateField(messageInput, validators.message));
-
-        contactForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const isNameValid = validateField(nameInput, validators.name);
-          const isEmailValid = validateField(emailInput, validators.email);
-          const isMessageValid = validateField(messageInput, validators.message);
-
-          if (isNameValid && isEmailValid && isMessageValid) {
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            submitBtn.textContent = '✓ Message Sent!';
-            submitBtn.classList.add('bg-green-600');
-
-            const sanitize = (str) => { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; };
-            console.log('Form submitted:', { name: sanitize(nameInput.value), email: sanitize(emailInput.value), message: sanitize(messageInput.value) });
-
-            setTimeout(() => {
-              contactForm.reset();
-              submitBtn.textContent = 'Send Message ✦';
-              submitBtn.classList.remove('bg-green-600');
-            }, 2000);
+        function se(inp, msg) { const s = inp.parentElement.querySelector('.error-message'); if (s) { s.textContent = msg; s.classList.remove('hidden'); } inp.setAttribute('aria-invalid', 'true'); inp.classList.add('border-red-400'); }
+        function ce(inp) { const s = inp.parentElement.querySelector('.error-message'); if (s) s.classList.add('hidden'); inp.removeAttribute('aria-invalid'); inp.classList.remove('border-red-400'); }
+        function vf(inp, val) { if (!val.validate(inp.value)) { se(inp, val.message); return false; } else { ce(inp); return true; } }
+        n?.addEventListener('input', () => vf(n, v.name)); e?.addEventListener('input', () => vf(e, v.email)); m?.addEventListener('input', () => vf(m, v.message));
+        n?.addEventListener('blur', () => vf(n, v.name)); e?.addEventListener('blur', () => vf(e, v.email)); m?.addEventListener('blur', () => vf(m, v.message));
+        form.addEventListener('submit', (ev) => {
+          ev.preventDefault();
+          if (vf(n, v.name) && vf(e, v.email) && vf(m, v.message)) {
+            const btn = form.querySelector('button[type="submit"]');
+            btn.textContent = '✓ Message Sent!'; btn.classList.add('bg-green-600');
+            setTimeout(() => { form.reset(); btn.textContent = 'Send Message ✦'; btn.classList.remove('bg-green-600'); }, 2000);
             playSound(1000, 0.3, 0.08);
-          } else {
-            playSound(400, 0.2, 0.06);
-          }
+          } else playSound(400, 0.2, 0.06);
         });
       }
 
-      // ===== GSAP SCROLLTRIGGER ANIMATIONS =====
       if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        if (!prefersReducedMotion) {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           gsap.from('#hero .glass-card', { scrollTrigger: { trigger: '#hero', start: 'top 80%' }, opacity: 0, y: 80, duration: 1.2, ease: 'power3.out' });
           gsap.from('#about .glass-card', { scrollTrigger: { trigger: '#about', start: 'top 75%' }, opacity: 0, x: -70, duration: 1, stagger: 0.2, ease: 'back.out(1.4)' });
           gsap.from('#skills .glass-card', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, opacity: 0, scale: 0.8, duration: 0.8, stagger: 0.15, ease: 'elastic.out(1, 0.8)' });
@@ -939,17 +849,6 @@
           gsap.from('#skills [role="progressbar"] div', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, width: 0, duration: 1.5, stagger: 0.1, ease: 'power2.out' });
         }
       }
-
-      window.addEventListener('error', (event) => {
-        console.error('Global error caught:', event.error);
-        const canvas = document.getElementById('three-canvas');
-        if (canvas && event.error && event.error.message.includes('WebGL')) canvas.style.display = 'none';
-      });
-
-      window.addEventListener('unhandledrejection', (event) => {
-        console.error('Unhandled promise rejection:', event.reason);
-        event.preventDefault();
-      });
     });
   </script>
 </body>
