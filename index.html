@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="Muhammad Azan Haider - Young Creative Designer & Future AI/Robotics Expert Portfolio">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Azan Haider • Futuristic Creative Portfolio</title>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://unpkg.com">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com" async></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ===== DARK PREMIUM THEME - NO PURPLE, NO BLUE-HEAVY GRADIENTS ===== */
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: rgba(20, 20, 20, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(255, 255, 255, 0.15);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --accent-primary: #ff6b35;
+      --accent-secondary: #ff8c42;
+      --accent-glow: rgba(255, 107, 53, 0.5);
+      --glass-blur: 24px;
+      --card-radius: 2rem;
+    }
+
+    body {
+      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      cursor: none;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    @media (pointer: coarse) {
+      body {
+        cursor: auto;
+      }
+    }
+
+    .font-orbitron { 
+      font-family: 'Orbitron', system-ui, sans-serif; 
+    }
+
+    .font-space { 
+      font-family: 'Space Grotesk', system-ui, sans-serif; 
+    }
+
+    /* Glass card - dark premium */
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      border-radius: var(--card-radius);
+      will-change: transform;
+      transform: translateZ(0);
+    }
+
+    /* Glow text - warm orange accent */
+    .glow-text {
+      text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(255, 107, 53, 0.3);
+    }
+
+    .neon-border {
+      box-shadow: 0 0 20px var(--accent-glow), 0 0 0 1px rgba(255, 107, 53, 0.2) inset;
+    }
+
+    /* Custom cursor - warm orange gradient */
+    .custom-cursor {
+      position: fixed;
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.8) 0%, rgba(255, 140, 66, 0.4) 80%);
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s linear, width 0.2s, height 0.2s, opacity 0.3s;
+      box-shadow: 0 0 30px var(--accent-primary);
+      opacity: 0;
+    }
+
+    .custom-cursor.active {
+      opacity: 1;
+    }
+
+    .cursor-hover {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 107, 53, 0.95);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      .custom-cursor {
+        display: none;
+      }
+    }
+
+    /* Scrollbar styling - dark theme */
+    ::-webkit-scrollbar { 
+      width: 6px; 
+    }
+
+    ::-webkit-scrollbar-track { 
+      background: #1a1a1a; 
+    }
+
+    ::-webkit-scrollbar-thumb { 
+      background: #ff6b35; 
+      border-radius: 10px; 
+    }
+
+    /* Firefox scrollbar */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #ff6b35 #1a1a1a;
+    }
+
+    /* Canvas */
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    #three-canvas.loaded {
+      opacity: 1;
+    }
+
+    section {
+      position: relative;
+      z-index: 10;
+    }
+
+    .hover-lift {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+      transform: translateZ(0);
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 45px rgba(255, 107, 53, 0.2), 0 0 0 1px rgba(255, 107, 53, 0.15) inset;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hover-lift:hover {
+        transform: none;
+      }
+
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Loading overlay */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease;
+    }
+
+    #loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 107, 53, 0.2);
+      border-top-color: #ff6b35;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Focus styles */
+    *:focus-visible {
+      outline: 3px solid #ff6b35;
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff6b35;
+      color: #0a0a0a;
+      padding: 8px 16px;
+      border-radius: 0 0 8px 8px;
+      z-index: 10001;
+      transition: top 0.3s;
+      font-weight: 600;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Button hover effects */
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+    }
+
+    /* Progress bar colors */
+    .progress-bar-accent {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42);
+      box-shadow: 0 0 12px rgba(255, 107, 53, 0.3);
+    }
+
+    /* Gradient text - warm only */
+    .text-gradient-warm {
+      background: linear-gradient(135deg, #ff6b35, #ff8c42, #ffaa66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (max-width: 768px) {
+      .glass-card {
+        border-radius: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased" role="document">
+
+  <!-- Skip Navigation Link -->
+  <a href="#main-content" class="skip-link font-space text-sm">Skip to main content</a>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" aria-label="Loading" role="alert">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- Three.js Canvas -->
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Content -->
+  <main id="main-content" class="relative z-10 w-full" role="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 relative" aria-label="Hero section">
+      <div class="glass-card p-6 sm:p-8 md:p-14 max-w-4xl w-full mx-auto transition-all">
+        <div class="mb-4 inline-block px-4 sm:px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs sm:text-sm font-space tracking-widest text-gray-300 border border-white/10" role="status">
+          ✦ YOUNG CREATIVE MIND ✦
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-orbitron tracking-tight text-gradient-warm drop-shadow-lg">
+          Hi, I'm <br class="sm:hidden"/> Azan Haider
+        </h1>
+
+        <p id="typed-subtext" class="text-lg sm:text-xl md:text-3xl font-space mt-5 text-gray-300 font-medium min-h-[3rem]" aria-live="polite" aria-atomic="true"></p>
+
+        <p class="text-base sm:text-lg text-gray-400 max-w-xl mx-auto mt-3">
+          Young Creative Designer • Future AI & Robotics Expert
+        </p>
+
+        <div class="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 justify-center">
+          <button 
+            class="btn-primary px-6 sm:px-8 py-3 sm:py-4 text-white font-bold rounded-full shadow-2xl hover:scale-105 transition-transform text-base sm:text-lg tracking-wide focus-visible:ring-4 focus-visible:ring-orange-400"
+            aria-label="View my creative work"
+            onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})"
+          >
+            View My Work
+          </button>
+          <button 
+            class="px-6 sm:px-8 py-3 sm:py-4 border border-white/20 bg-white/5 backdrop-blur-md rounded-full font-semibold text-gray-200 hover:bg-white/10 hover:border-orange-400/50 transition-all focus-visible:ring-4 focus-visible:ring-orange-400"
+            aria-label="Contact me"
+            onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"
+          >
+            Let's Connect
+          </button>
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 animate-bounce text-orange-400 text-xs sm:text-sm" aria-hidden="true">
+        ↓ scroll to explore
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="About me">
+      <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+        <div class="glass-card p-6 sm:p-8 md:p-10 order-2 md:order-1">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-gradient-warm mb-4 sm:mb-6">My Journey</h2>
+          <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
+            I'm <span class="font-bold text-orange-400">Muhammad Azan Haider</span>, a 10-year-old creative explorer. Four months ago, I discovered graphic design through YouTube tutorials – and I've been unstoppable ever since.
+          </p>
+          <div class="flex flex-wrap gap-2 sm:gap-3 mt-4 sm:mt-6">
+            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-orange-400/10 backdrop-blur rounded-full text-orange-300 font-medium text-sm sm:text-base border border-orange-400/20">📺 YouTube Learned</span>
+            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-white/5 backdrop-blur rounded-full text-gray-300 font-medium text-sm sm:text-base border border-white/10">🎨 100+ Canva Posts</span>
+            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-white/5 backdrop-blur rounded-full text-gray-300 font-medium text-sm sm:text-base border border-white/10">🤖 Future AI</span>
+          </div>
+        </div>
+
+        <div class="glass-card p-6 sm:p-8 flex justify-center order-1 md:order-2 relative" aria-hidden="true">
+          <div class="w-36 h-36 sm:w-48 sm:h-48 md:w-64 md:h-64 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-6xl sm:text-7xl md:text-8xl shadow-2xl" style="box-shadow: 0 0 40px rgba(255,107,53,0.3);">
+            🧑‍🎨
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Skills">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-center text-gradient-warm mb-10 sm:mb-14">⚡ Skills & Mindset</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div class="glass-card p-4 sm:p-6 text-center hover-lift cursor-pointer" tabindex="0" role="article" aria-label="Canva skill - 95%">
+          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">🖌️</div>
+          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Canva</h3>
+          <div class="w-full bg-white/10 h-2 rounded-full mt-3 overflow-hidden" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 95%"></div>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-400 mt-2">100+ designs</p>
+        </div>
+
+        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="Creativity skill - 90%">
+          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">💡</div>
+          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Creativity</h3>
+          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 90%"></div>
+          </div>
+        </div>
+
+        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="Learning mindset - 98%">
+          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">📈</div>
+          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Learning</h3>
+          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 98%"></div>
+          </div>
+        </div>
+
+        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="AI and Robotics - 80%">
+          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">🤖</div>
+          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">AI/Robotics</h3>
+          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 80%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Projects">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-center text-gradient-warm mb-8 sm:mb-10">✨ 100+ Canva Creations</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all duration-300" tabindex="0" role="article">
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">🎨</div>
+          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Poster Art</p>
+        </div>
+        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">📱</div>
+          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Social Media</p>
+        </div>
+        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
+          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">📚</div>
+          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Presentations</p>
+        </div>
+      </div>
+      <p class="text-center text-gray-500 mt-6 italic text-sm sm:text-base">and many more creative experiments...</p>
+    </section>
+
+    <!-- Future Goals Section -->
+    <section id="goals" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center" aria-label="Future goals">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-gradient-warm mb-10 sm:mb-14">🚀 Future Vision</h2>
+      <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
+        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
+          <span class="text-5xl sm:text-6xl" aria-hidden="true">🦾</span>
+          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">Robotics</h3>
+        </div>
+        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
+          <span class="text-5xl sm:text-6xl" aria-hidden="true">🧠</span>
+          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">AI</h3>
+        </div>
+        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
+          <span class="text-5xl sm:text-6xl" aria-hidden="true">🌍</span>
+          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">World-Class Designer</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 sm:py-20 px-4 sm:px-6 max-w-3xl mx-auto" aria-label="Contact form">
+      <div class="glass-card p-6 sm:p-8 md:p-12 text-center">
+        <h2 class="text-3xl sm:text-4xl font-orbitron font-bold text-gradient-warm mb-4">Let's Build the Future</h2>
+
+        <form id="contact-form" class="space-y-4 sm:space-y-5 text-left mt-6 sm:mt-8" novalidate>
+          <div>
+            <label for="name" class="sr-only">Your name</label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name"
+              placeholder="Your Name" 
+              required
+              aria-required="true"
+              minlength="2"
+              maxlength="100"
+              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition"
+              autocomplete="name"
+            >
+            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter your name (min 2 characters)</span>
+          </div>
+
+          <div>
+            <label for="email" class="sr-only">Email address</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email"
+              placeholder="Email Address" 
+              required
+              aria-required="true"
+              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition"
+              autocomplete="email"
+            >
+            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter a valid email address</span>
+          </div>
+
+          <div>
+            <label for="message" class="sr-only">Your message</label>
+            <textarea 
+              id="message" 
+              name="message"
+              rows="4" 
+              placeholder="Your Message" 
+              required
+              aria-required="true"
+              minlength="10"
+              maxlength="1000"
+              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition resize-y"
+            ></textarea>
+            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter a message (min 10 characters)</span>
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn-primary w-full py-3 sm:py-4 text-white font-bold rounded-2xl text-base sm:text-lg hover:scale-105 transition focus-visible:ring-4 focus-visible:ring-orange-400"
+            aria-label="Send message"
+          >
+            Send Message ✦
+          </button>
+        </form>
+
+        <div class="flex justify-center mt-6 sm:mt-8 gap-4 sm:gap-6">
+          <a 
+            href="https://linkedin.com" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-3xl sm:text-4xl text-orange-400 hover:text-orange-300 transition p-3 bg-white/5 rounded-full border border-white/10 focus-visible:ring-4 focus-visible:ring-orange-400"
+            aria-label="Visit my LinkedIn profile (opens in new tab)"
+            title="LinkedIn Profile"
+          >
+            🔗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="text-center py-8 text-gray-500 text-xs sm:text-sm" role="contentinfo">
+      <p>© 2025 Azan Haider – Future in motion</p>
+    </footer>
+  </main>
+
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    // ===== THREE.JS SETUP - DARK THEME WITH ORANGE ACCENT =====
+    import * as THREE from 'three';
+
+    const CONFIG = {
+      particlesCount: window.innerWidth < 768 ? 150 : 400,
+      cubeSize: window.innerWidth < 768 ? 1.2 : 1.6,
+      enableMouseInteraction: !window.matchMedia('(pointer: coarse)').matches,
+      fpsLimit: 60,
+      frameInterval: 1000 / 60
+    };
+
+    const canvas = document.getElementById('three-canvas');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    let renderer, scene, camera, creativeCube, particles;
+    let animationFrameId;
+    let lastFrameTime = 0;
+    let mouseX = 0, mouseY = 0;
+    let isSceneReady = false;
+
+    function cleanup() {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      if (renderer) {
+        renderer.dispose();
+        renderer.forceContextLoss();
+      }
+
+      if (scene) {
+        scene.traverse((object) => {
+          if (object.geometry) object.geometry.dispose();
+          if (object.material) {
+            if (Array.isArray(object.material)) {
+              object.material.forEach(material => material.dispose());
+            } else {
+              object.material.dispose();
+            }
+          }
+        });
+        scene.clear();
+      }
+    }
+
+    async function initThreeJS() {
+      try {
+        if (!window.WebGLRenderingContext) {
+          throw new Error('WebGL not supported');
+        }
+
+        renderer = new THREE.WebGLRenderer({ 
+          canvas, 
+          alpha: true, 
+          antialias: window.innerWidth > 768,
+          powerPreference: 'high-performance',
+          failIfMajorPerformanceCaveat: false
+        });
+
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1.5, 7);
+
+        // Warm lighting
+        const ambientLight = new THREE.AmbientLight(0x331100, 0.5);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffaa66, 1.2);
+        dirLight.position.set(1, 3, 2);
+        scene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0xff6b35, 0.8, 10);
+        pointLight.position.set(-2, 1, 3);
+        scene.add(pointLight);
+
+        // Creative rotating cube - warm orange
+        const geometry = new THREE.BoxGeometry(CONFIG.cubeSize, CONFIG.cubeSize, CONFIG.cubeSize);
+        const material = new THREE.MeshPhysicalMaterial({
+          color: 0xff6b35,
+          emissive: new THREE.Color(0x331100),
+          roughness: 0.3,
+          metalness: 0.2,
+          transparent: true,
+          opacity: 0.9,
+          clearcoat: 0.8,
+          clearcoatRoughness: 0.1,
+        });
+
+        creativeCube = new THREE.Mesh(geometry, material);
+        creativeCube.position.y = 0.2;
+        scene.add(creativeCube);
+
+        // Wireframe - warm white
+        const wireframe = new THREE.LineSegments(
+          new THREE.EdgesGeometry(geometry),
+          new THREE.LineBasicMaterial({ color: 0xffccaa })
+        );
+        creativeCube.add(wireframe);
+
+        // Floating particles - orange
+        const particlesGeo = new THREE.BufferGeometry();
+        const posArray = new Float32Array(CONFIG.particlesCount * 3);
+
+        for (let i = 0; i < CONFIG.particlesCount * 3; i += 3) {
+          posArray[i] = (Math.random() - 0.5) * 9;
+          posArray[i + 1] = (Math.random() - 0.5) * 5;
+          posArray[i + 2] = (Math.random() - 0.5) * 6;
+        }
+
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        const particlesMat = new THREE.PointsMaterial({
+          color: 0xffaa66,
+          size: 0.05,
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+        });
+
+        particles = new THREE.Points(particlesGeo, particlesMat);
+        scene.add(particles);
+
+        canvas.addEventListener('webglcontextlost', handleContextLost, false);
+        canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
+
+        isSceneReady = true;
+        canvas.classList.add('loaded');
+
+        setTimeout(() => {
+          loadingOverlay.classList.add('hidden');
+          setTimeout(() => loadingOverlay.remove(), 500);
+        }, 300);
+
+        lastFrameTime = performance.now();
+        animate();
+
+      } catch (error) {
+        console.error('Three.js initialization failed:', error);
+        handleInitializationError();
+      }
+    }
+
+    function handleContextLost(event) {
+      event.preventDefault();
+      cancelAnimationFrame(animationFrameId);
+      isSceneReady = false;
+    }
+
+    function handleContextRestored() {
+      isSceneReady = true;
+      lastFrameTime = performance.now();
+      animate();
+    }
+
+    function handleInitializationError() {
+      canvas.style.display = 'none';
+      loadingOverlay.classList.add('hidden');
+      document.body.style.background = '#0a0a0a';
+      console.warn('3D scene failed to load. Using fallback design.');
+    }
+
+    function animate(currentTime = performance.now()) {
+      if (!isSceneReady) return;
+
+      animationFrameId = requestAnimationFrame(animate);
+
+      const deltaTime = currentTime - lastFrameTime;
+      if (deltaTime < CONFIG.frameInterval) return;
+
+      lastFrameTime = currentTime - (deltaTime % CONFIG.frameInterval);
+
+      try {
+        creativeCube.rotation.x += 0.004;
+        creativeCube.rotation.y += 0.007;
+        particles.rotation.y += 0.0003;
+        particles.rotation.x += 0.0002;
+
+        if (CONFIG.enableMouseInteraction) {
+          creativeCube.rotation.x += mouseY * 0.002;
+          creativeCube.rotation.y += mouseX * 0.002;
+          particles.rotation.x += mouseY * 0.0002;
+        }
+
+        renderer.render(scene, camera);
+      } catch (error) {
+        console.error('Render error:', error);
+        isSceneReady = false;
+        cancelAnimationFrame(animationFrameId);
+      }
+    }
+
+    let mouseThrottleTimeout;
+    window.addEventListener('mousemove', (e) => {
+      if (!CONFIG.enableMouseInteraction) return;
+      if (mouseThrottleTimeout) return;
+
+      mouseThrottleTimeout = setTimeout(() => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        mouseThrottleTimeout = null;
+      }, 16);
+    }, { passive: true });
+
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+
+      resizeTimeout = setTimeout(() => {
+        if (!renderer || !camera) return;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        CONFIG.enableMouseInteraction = !window.matchMedia('(pointer: coarse)').matches;
+      }, 250);
+    }, { passive: true });
+
+    window.addEventListener('beforeunload', cleanup);
+    initThreeJS();
+  </script>
+
+  <!-- GSAP Animations & Interactions -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ===== CUSTOM CURSOR =====
+      const cursor = document.getElementById('cursor');
+      const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+      if (!isTouchDevice && cursor) {
+        let cursorVisible = false;
+
+        document.addEventListener('mouseenter', () => {
+          cursorVisible = true;
+          cursor.classList.add('active');
+        });
+
+        document.addEventListener('mouseleave', () => {
+          cursorVisible = false;
+          cursor.classList.remove('active');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!cursorVisible) return;
+          requestAnimationFrame(() => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+          });
+        }, { passive: true });
+
+        const interactiveElements = document.querySelectorAll('button, a, .hover-lift, .glass-card, input, textarea, [role="button"]');
+        interactiveElements.forEach(el => {
+          el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+          el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        const threeCanvas = document.getElementById('three-canvas');
+        if (threeCanvas) {
+          threeCanvas.addEventListener('mouseenter', () => cursor.style.opacity = '0');
+          threeCanvas.addEventListener('mouseleave', () => cursor.style.opacity = '1');
+        }
+      }
+
+      // ===== AUDIO SYSTEM =====
+      let audioCtx = null;
+      let audioEnabled = false;
+
+      function initAudio() {
+        if (audioCtx) return;
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          audioEnabled = true;
+        } catch (error) {
+          console.warn('Web Audio API not supported:', error);
+          audioEnabled = false;
+        }
+      }
+
+      function playSound(frequency = 800, duration = 0.15, volume = 0.06) {
+        if (!audioEnabled || !audioCtx) return;
+        try {
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+          osc.type = 'sine';
+          gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          osc.start(audioCtx.currentTime);
+          osc.stop(audioCtx.currentTime + duration);
+          osc.onended = () => { osc.disconnect(); gain.disconnect(); };
+        } catch (error) {}
+      }
+
+      function playClickSound() { playSound(800, 0.15, 0.06); }
+      function playHoverSound() { playSound(1200, 0.1, 0.04); }
+
+      ['click', 'touchstart', 'keydown'].forEach(eventType => {
+        document.addEventListener(eventType, () => initAudio(), { once: true });
+      });
+
+      document.querySelectorAll('button, a, .hover-lift, [role="button"]').forEach(el => {
+        el.addEventListener('click', (e) => { if (e.target.type !== 'submit') playClickSound(); });
+        el.addEventListener('mouseenter', playHoverSound);
+        el.addEventListener('focus', playHoverSound);
+      });
+
+      // ===== TYPING ANIMATION =====
+      const typedEl = document.getElementById('typed-subtext');
+      if (typedEl) {
+        const phrases = ["Creative Designer", "Future AI Expert", "100+ Canva Posts", "10-year-old Innovator"];
+        let phraseIndex = 0, charIndex = 0, currentPhrase = '', isDeleting = false, typeTimeout;
+
+        function typeLoop() {
+          const full = phrases[phraseIndex];
+          if (isDeleting) currentPhrase = full.substring(0, charIndex--);
+          else currentPhrase = full.substring(0, charIndex++);
+          typedEl.textContent = currentPhrase;
+
+          let speed;
+          if (!isDeleting && charIndex === full.length) { speed = 1500; isDeleting = true; }
+          else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; speed = 300; }
+          else speed = isDeleting ? 40 : 80;
+
+          typeTimeout = setTimeout(typeLoop, speed);
+        }
+        typeLoop();
+        window.addEventListener('beforeunload', () => clearTimeout(typeTimeout));
+      }
+
+      // ===== FORM VALIDATION =====
+      const contactForm = document.getElementById('contact-form');
+      if (contactForm) {
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+
+        const validators = {
+          name: { validate: (v) => v.trim().length >= 2, message: 'Please enter your name (min 2 characters)' },
+          email: { validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Please enter a valid email address' },
+          message: { validate: (v) => v.trim().length >= 10, message: 'Please enter a message (min 10 characters)' }
+        };
+
+        function showError(input, message) {
+          const errorSpan = input.parentElement.querySelector('.error-message');
+          if (errorSpan) { errorSpan.textContent = message; errorSpan.classList.remove('hidden'); }
+          input.setAttribute('aria-invalid', 'true');
+          input.classList.add('border-red-400');
+        }
+
+        function clearError(input) {
+          const errorSpan = input.parentElement.querySelector('.error-message');
+          if (errorSpan) errorSpan.classList.add('hidden');
+          input.removeAttribute('aria-invalid');
+          input.classList.remove('border-red-400');
+        }
+
+        function validateField(input, validator) {
+          if (!validator.validate(input.value)) { showError(input, validator.message); return false; }
+          else { clearError(input); return true; }
+        }
+
+        nameInput?.addEventListener('input', () => validateField(nameInput, validators.name));
+        emailInput?.addEventListener('input', () => validateField(emailInput, validators.email));
+        messageInput?.addEventListener('input', () => validateField(messageInput, validators.message));
+        nameInput?.addEventListener('blur', () => validateField(nameInput, validators.name));
+        emailInput?.addEventListener('blur', () => validateField(emailInput, validators.email));
+        messageInput?.addEventListener('blur', () => validateField(messageInput, validators.message));
+
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const isNameValid = validateField(nameInput, validators.name);
+          const isEmailValid = validateField(emailInput, validators.email);
+          const isMessageValid = validateField(messageInput, validators.message);
+
+          if (isNameValid && isEmailValid && isMessageValid) {
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            submitBtn.textContent = '✓ Message Sent!';
+            submitBtn.classList.add('bg-green-600');
+
+            const sanitize = (str) => { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; };
+            console.log('Form submitted:', { name: sanitize(nameInput.value), email: sanitize(emailInput.value), message: sanitize(messageInput.value) });
+
+            setTimeout(() => {
+              contactForm.reset();
+              submitBtn.textContent = 'Send Message ✦';
+              submitBtn.classList.remove('bg-green-600');
+            }, 2000);
+            playSound(1000, 0.3, 0.08);
+          } else {
+            playSound(400, 0.2, 0.06);
+          }
+        });
+      }
+
+      // ===== GSAP SCROLLTRIGGER ANIMATIONS =====
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!prefersReducedMotion) {
+          gsap.from('#hero .glass-card', { scrollTrigger: { trigger: '#hero', start: 'top 80%' }, opacity: 0, y: 80, duration: 1.2, ease: 'power3.out' });
+          gsap.from('#about .glass-card', { scrollTrigger: { trigger: '#about', start: 'top 75%' }, opacity: 0, x: -70, duration: 1, stagger: 0.2, ease: 'back.out(1.4)' });
+          gsap.from('#skills .glass-card', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, opacity: 0, scale: 0.8, duration: 0.8, stagger: 0.15, ease: 'elastic.out(1, 0.8)' });
+          gsap.from('#projects .glass-card', { scrollTrigger: { trigger: '#projects', start: 'top 85%' }, opacity: 0, y: 50, duration: 0.7, stagger: 0.2 });
+          gsap.from('#goals .glass-card', { scrollTrigger: { trigger: '#goals', start: 'top 85%' }, opacity: 0, rotation: 2, y: 40, duration: 0.9, stagger: 0.2 });
+          gsap.from('#contact .glass-card', { scrollTrigger: { trigger: '#contact', start: 'top 85%' }, opacity: 0, scale: 0.9, duration: 1 });
+          gsap.from('#skills [role="progressbar"] div', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, width: 0, duration: 1.5, stagger: 0.1, ease: 'power2.out' });
+        }
+      }
+
+      window.addEventListener('error', (event) => {
+        console.error('Global error caught:', event.error);
+        const canvas = document.getElementById('three-canvas');
+        if (canvas && event.error && event.error.message.includes('WebGL')) canvas.style.display = 'none';
+      });
+
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        event.preventDefault();
+      });
+    });
+  </script>
+</body>
+</html>
