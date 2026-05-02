@@ -1,855 +1,457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="description" content="Muhammad Azan Haider - Young Creative Designer & Future AI/Robotics Expert Portfolio">
-  <meta name="theme-color" content="#0a0a0a">
-  <title>Azan Haider • Futuristic Creative Portfolio</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://unpkg.com">
-
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.tailwindcss.com" async></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-  <style>
-    :root {
-      --bg-primary: #0a0a0a;
-      --bg-card: rgba(20, 20, 20, 0.7);
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --accent-primary: #ff6b35;
-      --accent-secondary: #ff8c42;
-      --accent-glow: rgba(255, 107, 53, 0.5);
-      --glass-blur: 24px;
-      --card-radius: 2rem;
-    }
-
-    body {
-      font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      cursor: none;
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    @media (pointer: coarse) {
-      body { cursor: auto; }
-    }
-
-    .font-orbitron { 
-      font-family: 'Orbitron', system-ui, sans-serif; 
-    }
-
-    .font-space { 
-      font-family: 'Space Grotesk', system-ui, sans-serif; 
-    }
-
-    .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-      border-radius: var(--card-radius);
-      will-change: transform;
-      transform: translateZ(0);
-    }
-
-    .glow-text {
-      text-shadow: 0 0 20px var(--accent-glow), 0 0 40px rgba(255, 107, 53, 0.3);
-    }
-
-    .neon-border {
-      box-shadow: 0 0 20px var(--accent-glow), 0 0 0 1px rgba(255, 107, 53, 0.2) inset;
-    }
-
-    /* Profile picture styling */
-    .profile-pic-wrapper {
-      position: relative;
-      display: inline-block;
-    }
-
-    .profile-pic {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(255, 107, 53, 0.5);
-      box-shadow: 0 0 30px rgba(255, 107, 53, 0.3), 0 0 60px rgba(255, 107, 53, 0.1);
-      transition: all 0.3s ease;
-      background: #1a1a1a;
-    }
-
-    .profile-pic:hover {
-      box-shadow: 0 0 40px rgba(255, 107, 53, 0.5), 0 0 80px rgba(255, 107, 53, 0.2);
-      transform: scale(1.05);
-    }
-
-    @media (min-width: 768px) {
-      .profile-pic {
-        width: 240px;
-        height: 240px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .profile-pic {
-        width: 280px;
-        height: 280px;
-      }
-    }
-
-    .custom-cursor {
-      position: fixed;
-      width: 28px;
-      height: 28px;
-      background: radial-gradient(circle, rgba(255, 107, 53, 0.8) 0%, rgba(255, 140, 66, 0.4) 80%);
-      border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: difference;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s linear, width 0.2s, height 0.2s, opacity 0.3s;
-      box-shadow: 0 0 30px var(--accent-primary);
-      opacity: 0;
-    }
-
-    .custom-cursor.active { opacity: 1; }
-
-    .cursor-hover {
-      width: 48px;
-      height: 48px;
-      background: rgba(255, 107, 53, 0.95);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-
-    @media (max-width: 768px), (pointer: coarse) {
-      .custom-cursor { display: none; }
-    }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #1a1a1a; }
-    ::-webkit-scrollbar-thumb { background: #ff6b35; border-radius: 10px; }
-
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #ff6b35 #1a1a1a;
-    }
-
-    #three-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-
-    #three-canvas.loaded { opacity: 1; }
-
-    section {
-      position: relative;
-      z-index: 10;
-    }
-
-    .hover-lift {
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
-      transform: translateZ(0);
-    }
-
-    .hover-lift:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 30px 45px rgba(255, 107, 53, 0.2), 0 0 0 1px rgba(255, 107, 53, 0.15) inset;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hover-lift:hover { transform: none; }
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    #loading-overlay {
-      position: fixed;
-      inset: 0;
-      background: #0a0a0a;
-      z-index: 10000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease;
-    }
-
-    #loading-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loader {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(255, 107, 53, 0.2);
-      border-top-color: #ff6b35;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    *:focus-visible {
-      outline: 3px solid #ff6b35;
-      outline-offset: 2px;
-      border-radius: 8px;
-    }
-
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ff6b35;
-      color: #0a0a0a;
-      padding: 8px 16px;
-      border-radius: 0 0 8px 8px;
-      z-index: 10001;
-      transition: top 0.3s;
-      font-weight: 600;
-    }
-
-    .skip-link:focus { top: 0; }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #ff6b35, #ff8c42);
-      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
-    }
-
-    .progress-bar-accent {
-      background: linear-gradient(135deg, #ff6b35, #ff8c42);
-      box-shadow: 0 0 12px rgba(255, 107, 53, 0.3);
-    }
-
-    .text-gradient-warm {
-      background: linear-gradient(135deg, #ff6b35, #ff8c42, #ffaa66);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Profile image fallback styling */
-    .profile-placeholder {
-      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 5rem;
-    }
-
-    @media (max-width: 768px) {
-      .glass-card { border-radius: 1.5rem; }
-    }
-  </style>
-</head>
-<body class="antialiased" role="document">
-
-  <a href="#main-content" class="skip-link font-space text-sm">Skip to main content</a>
-
-  <div id="loading-overlay" aria-label="Loading" role="alert">
-    <div class="loader"></div>
-  </div>
-
-  <div class="custom-cursor" id="cursor" aria-hidden="true"></div>
-
-  <canvas id="three-canvas" aria-hidden="true"></canvas>
-
-  <main id="main-content" class="relative z-10 w-full" role="main">
-
-    <!-- Hero Section - WITH YOUR PICTURE -->
-    <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 relative" aria-label="Hero section">
-      <div class="glass-card p-6 sm:p-8 md:p-14 max-w-4xl w-full mx-auto transition-all">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Azan Haider | Fractal Vision</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #020205;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            color: #f0f0f5;
+        }
+        /* PRELOADER - RARE INTERACTIVE */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #010101;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            pointer-events: none;
+        }
+        .preloader-inner {
+            text-align: center;
+        }
+        .preloader-ring {
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(59,130,246,0.2);
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spinLoader 0.8s linear infinite;
+            margin: 0 auto 24px;
+        }
+        @keyframes spinLoader {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .preloader-text {
+            font-size: 0.85rem;
+            letter-spacing: 10px;
+            font-weight: 300;
+            color: #8a8a9a;
+            text-transform: uppercase;
+        }
+        .preloader-progress {
+            width: 240px;
+            height: 1px;
+            background: #1a1a2a;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+        .preloader-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #a855f7);
+            transition: width 0.15s linear;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0a0a10; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         
-        <!-- YOUR PICTURE HERE -->
-        <div class="mb-6 flex justify-center">
-          <div class="profile-pic-wrapper">
-            <!-- 
-              ============================================
-              YAHAN APNI PICTURE KA URL LAGAO
-              Replace the src below with your image URL
-              Example: src="https://example.com/your-photo.jpg"
-              ============================================
-            -->
-            <img 
-              src="pic.png" 
-              alt="Muhammad Azan Haider - Young Creative Designer" 
-              class="profile-pic"
-              id="profileImage"
-              onerror="this.style.display='none'; this.parentElement.querySelector('.profile-placeholder').style.display='flex';"
-              loading="eager"
-            >
-            <!-- Fallback agar image load na ho -->
-            <div 
-              class="profile-pic profile-placeholder" 
-              id="profileFallback" 
-              style="display: none;"
-              aria-hidden="true"
-            >
-              🧑‍🎨
+        /* Glassmorphism advanced */
+        .glass-rare {
+            background: rgba(12, 12, 20, 0.55);
+            backdrop-filter: blur(14px);
+            border-radius: 42px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 50px -25px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03);
+        }
+        .glass-card-rare {
+            background: rgba(8, 8, 16, 0.65);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            border: 1px solid rgba(59,130,246,0.2);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .glass-card-rare:hover {
+            border-color: rgba(59,130,246,0.5);
+            transform: translateY(-5px);
+            background: rgba(15, 15, 28, 0.75);
+        }
+        .chrome-text-future {
+            background: linear-gradient(125deg, #FFFFFF 15%, #8b9eff 45%, #c084fc 75%, #FFFFFF 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        /* Unique floating blob */
+        .blob-bg {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0) 70%);
+            filter: blur(70px);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        /* Side edges */
+        .edge-line {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, #3b82f660, transparent);
+            z-index: 20;
+            pointer-events: none;
+        }
+        .edge-left { left: 40px; }
+        .edge-right { right: 40px; }
+        @media (max-width: 768px) {
+            .edge-left, .edge-right { display: none; }
+            .glass-rare { backdrop-filter: blur(8px); }
+        }
+        /* Animation for split text */
+        .split-line {
+            overflow: hidden;
+        }
+        .btn-neuro {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid rgba(59,130,246,0.5);
+            transition: 0.25s;
+        }
+        .btn-neuro:hover {
+            background: #3b82f6;
+            box-shadow: 0 0 15px #3b82f680;
+            border-color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- PRELOADER (rare style) -->
+<div id="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-ring"></div>
+        <div class="preloader-text">AZAN HAIDER</div>
+        <div class="preloader-progress"><div class="preloader-fill" id="loaderFill"></div></div>
+        <div class="text-xs text-gray-500 mt-4 tracking-wide">loading dimensional gateway</div>
+    </div>
+</div>
+
+<!-- Fixed decorative edges -->
+<div class="edge-line edge-left"></div>
+<div class="edge-line edge-right"></div>
+
+<!-- floating blobs (rare abstract) -->
+<div class="blob-bg" style="top: -200px; left: -200px;"></div>
+<div class="blob-bg" style="bottom: -300px; right: -150px; background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);"></div>
+
+<!-- 3D Canvas container (integrated immersive) -->
+<div id="three-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; pointer-events: none;"></div>
+
+<!-- MAIN CONTENT -->
+<main class="relative z-10">
+    <!-- HERO: unconventional split -->
+    <section class="min-h-screen flex items-center justify-center relative px-6">
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="glass-rare p-10 md:p-14 text-center md:text-left md:flex md:justify-between md:items-center gap-12">
+                <div class="space-y-5">
+                    <div class="inline-block px-4 py-1 rounded-full bg-white/5 text-xs tracking-widest border border-white/10">✦ FUTURE ARCHITECT ✦</div>
+                    <h1 class="text-6xl md:text-8xl font-bold leading-[1.1]">
+                        Muhammad <br>
+                        <span class="chrome-text-future">Azan Haider</span>
+                    </h1>
+                    <div class="flex gap-3 flex-wrap">
+                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">Age 10</span>
+                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">100+ Designs</span>
+                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">Robotics Vision</span>
+                    </div>
+                    <p class="text-gray-300 max-w-lg text-lg">From 4 months of self-taught design to engineering intelligent systems — a journey beyond limits.</p>
+                    <button id="scrollExplore" class="btn-neuro text-white px-8 py-4 rounded-full font-semibold tracking-wide mt-4 flex items-center gap-2 group">
+                        Explore The Unknown <span class="group-hover:translate-x-1 transition">→</span>
+                    </button>
+                </div>
+                <div class="mt-8 md:mt-0 text-9xl md:text-9xl opacity-60">⚡🤖</div>
             </div>
-          </div>
         </div>
-
-        <div class="mb-4 inline-block px-4 sm:px-5 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs sm:text-sm font-space tracking-widest text-gray-300 border border-white/10" role="status">
-          ✦ YOUNG CREATIVE MIND ✦
-        </div>
-
-        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-orbitron tracking-tight text-gradient-warm drop-shadow-lg">
-          Hi, I'm <br class="sm:hidden"/> Azan Haider
-        </h1>
-
-        <p id="typed-subtext" class="text-lg sm:text-xl md:text-3xl font-space mt-5 text-gray-300 font-medium min-h-[3rem]" aria-live="polite" aria-atomic="true"></p>
-
-        <p class="text-base sm:text-lg text-gray-400 max-w-xl mx-auto mt-3">
-          Young Creative Designer • Future AI & Robotics Expert
-        </p>
-
-        <div class="mt-8 sm:mt-10 flex flex-wrap gap-3 sm:gap-4 justify-center">
-          <button 
-            class="btn-primary px-6 sm:px-8 py-3 sm:py-4 text-white font-bold rounded-full shadow-2xl hover:scale-105 transition-transform text-base sm:text-lg tracking-wide focus-visible:ring-4 focus-visible:ring-orange-400"
-            aria-label="View my creative work"
-            onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})"
-          >
-            View My Work
-          </button>
-          <button 
-            class="px-6 sm:px-8 py-3 sm:py-4 border border-white/20 bg-white/5 backdrop-blur-md rounded-full font-semibold text-gray-200 hover:bg-white/10 hover:border-orange-400/50 transition-all focus-visible:ring-4 focus-visible:ring-orange-400"
-            aria-label="Contact me"
-            onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"
-          >
-            Let's Connect
-          </button>
-        </div>
-      </div>
-
-      <div class="absolute bottom-8 animate-bounce text-orange-400 text-xs sm:text-sm" aria-hidden="true">
-        ↓ scroll to explore
-      </div>
     </section>
 
-    <!-- About Section - WITH ANOTHER PICTURE PLACEHOLDER -->
-    <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="About me">
-      <div class="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
-        <div class="glass-card p-6 sm:p-8 md:p-10 order-2 md:order-1">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-gradient-warm mb-4 sm:mb-6">My Journey</h2>
-          <p class="text-gray-300 text-base sm:text-lg leading-relaxed mb-4 sm:mb-5">
-            I'm <span class="font-bold text-orange-400">Muhammad Azan Haider</span>, a 10-year-old creative explorer. Four months ago, I discovered graphic design through YouTube tutorials – and I've been unstoppable ever since.
-          </p>
-          <div class="flex flex-wrap gap-2 sm:gap-3 mt-4 sm:mt-6">
-            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-orange-400/10 backdrop-blur rounded-full text-orange-300 font-medium text-sm sm:text-base border border-orange-400/20">📺 YouTube Learned</span>
-            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-white/5 backdrop-blur rounded-full text-gray-300 font-medium text-sm sm:text-base border border-white/10">🎨 100+ Canva Posts</span>
-            <span class="px-3 sm:px-5 py-1.5 sm:py-2 bg-white/5 backdrop-blur rounded-full text-gray-300 font-medium text-sm sm:text-base border border-white/10">🤖 Future AI</span>
-          </div>
-        </div>
-
-        <!-- About section picture -->
-        <div class="glass-card p-6 sm:p-8 flex justify-center order-1 md:order-2 relative" aria-hidden="true">
-          <div class="profile-pic-wrapper">
-            <!-- 
-              ============================================
-              YAHAN BHI APNI PICTURE LAGA SAKTE HO
-              Ya same picture ka URL use karo
-              ============================================
-            -->
-            <img 
-              src="YOUR_PHOTO_URL_HERE" 
-              alt="Azan Haider - Creative Journey" 
-              class="profile-pic"
-              onerror="this.style.display='none'; this.parentElement.querySelector('.profile-placeholder').style.display='flex';"
-              loading="lazy"
-            >
-            <div 
-              class="profile-pic profile-placeholder" 
-              style="display: none;"
-              aria-hidden="true"
-            >
-              🧑‍🎨
+    <!-- ABOUT: storytelling with timeline (rare flow) -->
+    <section class="py-28 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-14 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="space-y-5">
+                        <span class="text-blue-400 tracking-[0.2em] text-sm">[ ORIGIN STORY ]</span>
+                        <h2 class="text-5xl md:text-6xl font-medium">The <span class="chrome-text-future">4-Month</span> Metamorphosis</h2>
+                        <div class="w-16 h-[2px] bg-gradient-to-r from-blue-500 to-transparent"></div>
+                        <p class="text-gray-300 text-lg leading-relaxed">Muhammad Azan Haider turned YouTube tutorials into a creative arsenal. Within 4 months, he produced 100+ high-impact Canva posts — mastering layout, color psychology, and storytelling. This relentless curiosity now drives his obsession with robotics, AI agents, and next-gen automation.</p>
+                        <div class="flex gap-10 pt-4">
+                            <div><div class="text-4xl font-bold text-blue-400">100+</div><div class="text-gray-400 text-sm">Design Assets</div></div>
+                            <div><div class="text-4xl font-bold text-blue-400">4</div><div class="text-gray-400 text-sm">Months Self-Taught</div></div>
+                            <div><div class="text-4xl font-bold text-blue-400">∞</div><div class="text-gray-400 text-sm">Future Horizon</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="glass-card-rare p-8 relative">
+                        <div class="absolute -top-5 -left-5 w-12 h-12 border-t border-l border-blue-500/40"></div>
+                        <p class="text-xl italic font-light text-gray-200 leading-relaxed">“Design isn't just decoration — it's the first language of intelligence. Robotics and AI will be my canvas to change the world.”</p>
+                        <p class="mt-6 font-medium text-right">— Muhammad Azan Haider, Visionary</p>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- timeline effect minimal -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 border-t border-white/5 pt-12">
+                <div class="flex flex-col items-center"><div class="text-3xl">🎨⚡</div><div class="font-bold mt-2">Phase 01: Graphic Design</div><p class="text-gray-400 text-sm">Canva, branding, viral content</p></div>
+                <div class="flex flex-col items-center"><div class="text-3xl">📈✨</div><div class="font-bold mt-2">Phase 02: Growth</div><p class="text-gray-400 text-sm">100+ designs & social proof</p></div>
+                <div class="flex flex-col items-center"><div class="text-3xl">🤖🧠</div><div class="font-bold mt-2">Phase 03: AI Robotics</div><p class="text-gray-400 text-sm">Engineering autonomous systems</p></div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Skills">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-center text-gradient-warm mb-10 sm:mb-14">⚡ Skills & Mindset</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-        <div class="glass-card p-4 sm:p-6 text-center hover-lift cursor-pointer" tabindex="0" role="article" aria-label="Canva skill - 95%">
-          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">🖌️</div>
-          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Canva</h3>
-          <div class="w-full bg-white/10 h-2 rounded-full mt-3 overflow-hidden" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 95%"></div>
-          </div>
-          <p class="text-xs sm:text-sm text-gray-400 mt-2">100+ designs</p>
+    <!-- SKILLS SECTION: abstract capsule wall -->
+    <section class="py-24 px-6 bg-black/20">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="text-blue-400 text-sm tracking-widest">COGNITIVE TOOLKIT</div>
+                <h3 class="text-5xl md:text-6xl font-bold mt-3">Skillset <span class="chrome-text-future">Radar</span></h3>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🎨</div><h4 class="text-xl font-bold">Graphic Design</h4><p class="text-sm text-gray-400 mt-1">Canva Expert</p></div>
+                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🤖</div><h4 class="text-xl font-bold">Robotics</h4><p class="text-sm text-gray-400 mt-1">Arduino / Logic</p></div>
+                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🧠</div><h4 class="text-xl font-bold">AI Engineering</h4><p class="text-sm text-gray-400 mt-1">Prompting · Workflow</p></div>
+                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">📊</div><h4 class="text-xl font-bold">Content Strategy</h4><p class="text-sm text-gray-400 mt-1">Viral Growth</p></div>
+            </div>
         </div>
-
-        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="Creativity skill - 90%">
-          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">💡</div>
-          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Creativity</h3>
-          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 90%"></div>
-          </div>
-        </div>
-
-        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="Learning mindset - 98%">
-          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">📈</div>
-          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">Learning</h3>
-          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 98%"></div>
-          </div>
-        </div>
-
-        <div class="glass-card p-4 sm:p-6 text-center hover-lift" tabindex="0" role="article" aria-label="AI and Robotics - 80%">
-          <div class="text-4xl sm:text-5xl mb-2 sm:mb-3" aria-hidden="true">🤖</div>
-          <h3 class="font-space font-semibold text-lg sm:text-xl text-gray-200">AI/Robotics</h3>
-          <div class="w-full bg-white/10 h-2 rounded-full mt-3" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar-accent h-full transition-all duration-1000" style="width: 80%"></div>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <!-- Projects Section - WITH PICTURE PLACEHOLDER FOR CANVA WORK -->
-    <section id="projects" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto" aria-label="Projects">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-center text-gradient-warm mb-8 sm:mb-10">✨ 100+ Canva Creations</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all duration-300" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl overflow-hidden" aria-hidden="true">
-            <!-- Agar yahan apni koi design ki picture lagani ho toh -->
-            <img src="YOUR_DESIGN_IMAGE_URL" alt="Poster Art Design" class="w-full h-full object-cover rounded-2xl" onerror="this.style.display='none'; this.parentElement.innerHTML='🎨';">
-            <span class="fallback-emoji">🎨</span>
-          </div>
-          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Poster Art</p>
+    <!-- PROJECTS: 100+ CANVA GRID (Immersive) -->
+    <section class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-end flex-wrap mb-12">
+                <div><span class="text-blue-400 text-sm tracking-widest">PRODUCTION MASS</span><h2 class="text-5xl md:text-6xl font-bold mt-2">100+ Canva <br><span class="chrome-text-future">Creations</span></h2></div>
+                <div class="text-gray-400 max-w-sm mt-4 md:mt-0">A massive library of visual assets generated in record time — each piece a testament to raw creative power.</div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-br from-indigo-950/60 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">🖼️📱</div><div class="p-6"><h3 class="text-2xl font-semibold">Social Campaigns</h3><p class="text-gray-400 mt-2">Instagram & Brand Assets</p><div class="mt-3 text-sm text-blue-400">+42 designs</div></div></div>
+                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-tr from-blue-950/40 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform">🎨✨</div><div class="p-6"><h3 class="text-2xl font-semibold">Brand Identity</h3><p class="text-gray-400 mt-2">Logos, Cards, Visual Systems</p><div class="mt-3 text-sm text-blue-400">+36 identities</div></div></div>
+                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-r from-slate-900 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform">⚡📽️</div><div class="p-6"><h3 class="text-2xl font-semibold">Motion Concepts</h3><p class="text-gray-400 mt-2">Animated Stories & Effects</p><div class="mt-3 text-sm text-blue-400">+27 animations</div></div></div>
+            </div>
+            <div class="text-center mt-12"><div class="inline-block border-l-4 border-blue-500 pl-5 text-gray-300 text-lg">Every design pushes the boundary — from static to kinetic intelligence.</div></div>
         </div>
-        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">
-            <span class="fallback-emoji">📱</span>
-          </div>
-          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Social Media</p>
-        </div>
-        <div class="glass-card p-4 sm:p-5 hover:scale-105 transition-all" tabindex="0" role="article">
-          <div class="h-32 sm:h-40 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl" aria-hidden="true">
-            <span class="fallback-emoji">📚</span>
-          </div>
-          <p class="text-center mt-3 font-medium text-sm sm:text-base text-gray-300">Presentations</p>
-        </div>
-      </div>
-      <p class="text-center text-gray-500 mt-6 italic text-sm sm:text-base">and many more creative experiments...</p>
     </section>
 
-    <!-- Future Goals Section -->
-    <section id="goals" class="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto text-center" aria-label="Future goals">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-orbitron font-bold text-gradient-warm mb-10 sm:mb-14">🚀 Future Vision</h2>
-      <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
-        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
-          <span class="text-5xl sm:text-6xl" aria-hidden="true">🦾</span>
-          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">Robotics</h3>
+    <!-- FUTURE VISION (Robotics + AI) extraordinary -->
+    <section class="py-28 px-6 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-rare p-10 md:p-16 text-center relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                <span class="text-blue-400 text-sm tracking-[0.2em]">2030 READY</span>
+                <h2 class="text-5xl md:text-7xl font-bold mt-5 leading-tight">Robotics & <span class="chrome-text-future">Artificial Intelligence</span></h2>
+                <p class="text-xl text-gray-200 mt-8 max-w-2xl mx-auto">Azan's north star: building autonomous systems that merge design thinking with machine intelligence. The goal — to create ethical, impactful AI that elevates human potential.</p>
+                <div class="flex flex-wrap justify-center gap-3 mt-10"><span class="px-5 py-2 bg-white/5 rounded-full">Machine Learning</span><span class="px-5 py-2 bg-white/5 rounded-full">Computer Vision</span><span class="px-5 py-2 bg-white/5 rounded-full">ROS 2.0</span><span class="px-5 py-2 bg-white/5 rounded-full">Edge AI</span></div>
+                <div class="mt-12 text-6xl flex justify-center gap-6">🤖 ⚙️ 🧬</div>
+            </div>
         </div>
-        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
-          <span class="text-5xl sm:text-6xl" aria-hidden="true">🧠</span>
-          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">AI</h3>
-        </div>
-        <div class="glass-card p-6 sm:p-8 w-48 sm:w-60 hover-lift" tabindex="0" role="article">
-          <span class="text-5xl sm:text-6xl" aria-hidden="true">🌍</span>
-          <h3 class="font-space text-xl sm:text-2xl mt-4 text-gray-200">World-Class Designer</h3>
-        </div>
-      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 sm:py-20 px-4 sm:px-6 max-w-3xl mx-auto" aria-label="Contact form">
-      <div class="glass-card p-6 sm:p-8 md:p-12 text-center">
-        <h2 class="text-3xl sm:text-4xl font-orbitron font-bold text-gradient-warm mb-4">Let's Build the Future</h2>
-
-        <form id="contact-form" class="space-y-4 sm:space-y-5 text-left mt-6 sm:mt-8" novalidate>
-          <div>
-            <label for="name" class="sr-only">Your name</label>
-            <input 
-              type="text" 
-              id="name" 
-              name="name"
-              placeholder="Your Name" 
-              required
-              aria-required="true"
-              minlength="2"
-              maxlength="100"
-              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition"
-              autocomplete="name"
-            >
-            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter your name (min 2 characters)</span>
-          </div>
-
-          <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email"
-              placeholder="Email Address" 
-              required
-              aria-required="true"
-              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition"
-              autocomplete="email"
-            >
-            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter a valid email address</span>
-          </div>
-
-          <div>
-            <label for="message" class="sr-only">Your message</label>
-            <textarea 
-              id="message" 
-              name="message"
-              rows="4" 
-              placeholder="Your Message" 
-              required
-              aria-required="true"
-              minlength="10"
-              maxlength="1000"
-              class="w-full p-3 sm:p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition resize-y"
-            ></textarea>
-            <span class="text-red-400 text-xs mt-1 hidden error-message" role="alert">Please enter a message (min 10 characters)</span>
-          </div>
-
-          <button 
-            type="submit" 
-            class="btn-primary w-full py-3 sm:py-4 text-white font-bold rounded-2xl text-base sm:text-lg hover:scale-105 transition focus-visible:ring-4 focus-visible:ring-orange-400"
-            aria-label="Send message"
-          >
-            Send Message ✦
-          </button>
-        </form>
-
-        <div class="flex justify-center mt-6 sm:mt-8 gap-4 sm:gap-6">
-          <a 
-            href="https://linkedin.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="text-3xl sm:text-4xl text-orange-400 hover:text-orange-300 transition p-3 bg-white/5 rounded-full border border-white/10 focus-visible:ring-4 focus-visible:ring-orange-400"
-            aria-label="Visit my LinkedIn profile (opens in new tab)"
-            title="LinkedIn Profile"
-          >
-            🔗
-          </a>
+    <!-- CONTACT + LinkedIn -->
+    <section class="py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-rare p-8 md:p-12">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div><h3 class="text-3xl md:text-4xl font-bold">Let’s Forge <br><span class="chrome-text-future">The Future</span></h3><p class="text-gray-400 mt-3">Collaborations, ideas, or robotics challenges — reach out.</p>
+                        <div class="mt-6 space-y-4"><input type="text" placeholder="Visionary Name" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"><input type="email" placeholder="Email" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"><textarea rows="3" placeholder="Your message" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"></textarea><button id="fakeContactBtn" class="w-full btn-neuro py-3 rounded-xl font-semibold transition">Send Transmission →</button><p class="text-xs text-gray-500 text-center">UI concept · portfolio contact simulation</p></div>
+                    </div>
+                    <div class="flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-12">
+                        <div class="text-center"><div class="text-2xl font-light">Connect</div><div class="text-3xl font-bold mt-2 flex gap-2 justify-center">🔗 LinkedIn</div><a href="#" id="linkedinMockBtn" class="inline-flex mt-6 bg-[#0A66C2] px-8 py-3 rounded-full text-white font-medium hover:bg-[#0e5bb9] transition shadow-lg">Visit Profile →</a><p class="text-gray-400 text-sm mt-6">Muhammad Azan Haider · Future Builder</p></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <footer class="text-center py-8 text-gray-500 text-xs sm:text-sm" role="contentinfo">
-      <p>© 2025 Azan Haider – Future in motion</p>
-    </footer>
-  </main>
+    <footer class="py-8 text-center text-gray-500 border-t border-white/5 text-sm">© 2025 · Azan Haider · The Infinite Playground</footer>
+</main>
 
-  <!-- Three.js Import Map -->
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
-      }
-    }
-  </script>
+<script>
+    // PRELOADER HANDLER
+    let loadProgress = 0;
+    const loaderFill = document.getElementById('loaderFill');
+    const preloaderDiv = document.getElementById('preloader');
+    const interval = setInterval(() => {
+        loadProgress += Math.floor(Math.random() * 18) + 5;
+        if (loadProgress >= 100) { loadProgress = 100; clearInterval(interval); }
+        loaderFill.style.width = loadProgress + '%';
+        if (loadProgress === 100) {
+            setTimeout(() => {
+                gsap.to(preloaderDiv, { opacity: 0, duration: 1, ease: "power2.inOut", onComplete: () => {
+                    preloaderDiv.style.display = 'none';
+                }});
+            }, 500);
+        }
+    }, 120);
+</script>
 
-  <script type="module">
+<!-- Three.js Advanced (rare abstract field + interactive response) -->
+<script type="module">
     import * as THREE from 'three';
-
-    const CONFIG = {
-      particlesCount: window.innerWidth < 768 ? 150 : 400,
-      cubeSize: window.innerWidth < 768 ? 1.2 : 1.6,
-      enableMouseInteraction: !window.matchMedia('(pointer: coarse)').matches,
-      fpsLimit: 60,
-      frameInterval: 1000 / 60
-    };
-
-    const canvas = document.getElementById('three-canvas');
-    const loadingOverlay = document.getElementById('loading-overlay');
-
-    let renderer, scene, camera, creativeCube, particles;
-    let animationFrameId;
-    let lastFrameTime = 0;
+    
+    const canvasContainer = document.getElementById('three-canvas');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x020205);
+    scene.fog = new THREE.FogExp2(0x020205, 0.012);
+    
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0.5, 14);
+    
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    canvasContainer.appendChild(renderer.domElement);
+    
+    // Custom geometry: glimmering particles field + rotating wireframe dodecahedron
+    const particleCount = 2800;
+    const geom = new THREE.BufferGeometry();
+    const posArray = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+        const radius = 6.5 + Math.random() * 3;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        posArray[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+        posArray[i*3+1] = radius * Math.sin(phi) * Math.sin(theta) * 0.7;
+        posArray[i*3+2] = radius * Math.cos(phi);
+    }
+    geom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0x6d8eff, size: 0.07, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
+    const particles = new THREE.Points(geom, particleMat);
+    scene.add(particles);
+    
+    // core symbol: icosahedron wireframe
+    const icoGeo = new THREE.IcosahedronGeometry(1.2, 0);
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.35 });
+    const icoWire = new THREE.Mesh(icoGeo, wireMat);
+    scene.add(icoWire);
+    
+    const innerGlow = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(1.1, 0),
+        new THREE.MeshStandardMaterial({ color: 0x1e40af, emissive: 0x2563eb, emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8 })
+    );
+    scene.add(innerGlow);
+    
+    // subtle lights
+    const ambient = new THREE.AmbientLight(0x111122);
+    scene.add(ambient);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(2, 3, 4);
+    scene.add(dirLight);
+    const back = new THREE.PointLight(0x3b82f6, 0.5);
+    back.position.set(-2, 1, -4);
+    scene.add(back);
+    
     let mouseX = 0, mouseY = 0;
-    let isSceneReady = false;
-
-    function cleanup() {
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-      if (renderer) {
-        renderer.dispose();
-        renderer.forceContextLoss();
-      }
-      if (scene) {
-        scene.traverse((object) => {
-          if (object.geometry) object.geometry.dispose();
-          if (object.material) {
-            if (Array.isArray(object.material)) object.material.forEach(m => m.dispose());
-            else object.material.dispose();
-          }
-        });
-        scene.clear();
-      }
-    }
-
-    async function initThreeJS() {
-      try {
-        if (!window.WebGLRenderingContext) throw new Error('WebGL not supported');
-
-        renderer = new THREE.WebGLRenderer({ 
-          canvas, alpha: true, antialias: window.innerWidth > 768,
-          powerPreference: 'high-performance', failIfMajorPerformanceCaveat: false
-        });
-
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000, 0);
-
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.5, 7);
-
-        const ambientLight = new THREE.AmbientLight(0x331100, 0.5);
-        scene.add(ambientLight);
-        const dirLight = new THREE.DirectionalLight(0xffaa66, 1.2);
-        dirLight.position.set(1, 3, 2);
-        scene.add(dirLight);
-        const pointLight = new THREE.PointLight(0xff6b35, 0.8, 10);
-        pointLight.position.set(-2, 1, 3);
-        scene.add(pointLight);
-
-        const geometry = new THREE.BoxGeometry(CONFIG.cubeSize, CONFIG.cubeSize, CONFIG.cubeSize);
-        const material = new THREE.MeshPhysicalMaterial({
-          color: 0xff6b35, emissive: new THREE.Color(0x331100),
-          roughness: 0.3, metalness: 0.2, transparent: true, opacity: 0.9,
-          clearcoat: 0.8, clearcoatRoughness: 0.1,
-        });
-
-        creativeCube = new THREE.Mesh(geometry, material);
-        creativeCube.position.y = 0.2;
-        scene.add(creativeCube);
-
-        const wireframe = new THREE.LineSegments(
-          new THREE.EdgesGeometry(geometry),
-          new THREE.LineBasicMaterial({ color: 0xffccaa })
-        );
-        creativeCube.add(wireframe);
-
-        const particlesGeo = new THREE.BufferGeometry();
-        const posArray = new Float32Array(CONFIG.particlesCount * 3);
-        for (let i = 0; i < CONFIG.particlesCount * 3; i += 3) {
-          posArray[i] = (Math.random() - 0.5) * 9;
-          posArray[i + 1] = (Math.random() - 0.5) * 5;
-          posArray[i + 2] = (Math.random() - 0.5) * 6;
-        }
-        particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMat = new THREE.PointsMaterial({
-          color: 0xffaa66, size: 0.05, blending: THREE.AdditiveBlending, depthWrite: false,
-        });
-        particles = new THREE.Points(particlesGeo, particlesMat);
-        scene.add(particles);
-
-        canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); cancelAnimationFrame(animationFrameId); isSceneReady = false; }, false);
-        canvas.addEventListener('webglcontextrestored', () => { isSceneReady = true; lastFrameTime = performance.now(); animate(); }, false);
-
-        isSceneReady = true;
-        canvas.classList.add('loaded');
-
-        setTimeout(() => {
-          loadingOverlay.classList.add('hidden');
-          setTimeout(() => loadingOverlay.remove(), 500);
-        }, 300);
-
-        lastFrameTime = performance.now();
-        animate();
-      } catch (error) {
-        console.error('Three.js initialization failed:', error);
-        canvas.style.display = 'none';
-        loadingOverlay.classList.add('hidden');
-        document.body.style.background = '#0a0a0a';
-      }
-    }
-
-    function animate(currentTime = performance.now()) {
-      if (!isSceneReady) return;
-      animationFrameId = requestAnimationFrame(animate);
-      const deltaTime = currentTime - lastFrameTime;
-      if (deltaTime < CONFIG.frameInterval) return;
-      lastFrameTime = currentTime - (deltaTime % CONFIG.frameInterval);
-      try {
-        creativeCube.rotation.x += 0.004;
-        creativeCube.rotation.y += 0.007;
-        particles.rotation.y += 0.0003;
-        particles.rotation.x += 0.0002;
-        if (CONFIG.enableMouseInteraction) {
-          creativeCube.rotation.x += mouseY * 0.002;
-          creativeCube.rotation.y += mouseX * 0.002;
-          particles.rotation.x += mouseY * 0.0002;
-        }
-        renderer.render(scene, camera);
-      } catch (error) {
-        isSceneReady = false;
-        cancelAnimationFrame(animationFrameId);
-      }
-    }
-
-    let mouseThrottleTimeout;
     window.addEventListener('mousemove', (e) => {
-      if (!CONFIG.enableMouseInteraction || mouseThrottleTimeout) return;
-      mouseThrottleTimeout = setTimeout(() => {
         mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        mouseThrottleTimeout = null;
-      }, 16);
-    }, { passive: true });
-
-    let resizeTimeout;
+        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
+    
+    function animate3D() {
+        requestAnimationFrame(animate3D);
+        particles.rotation.y += 0.0006;
+        particles.rotation.x = Math.sin(Date.now() * 0.0003) * 0.1;
+        icoWire.rotation.x += 0.003;
+        icoWire.rotation.y += 0.005;
+        innerGlow.rotation.x += 0.002;
+        innerGlow.rotation.z += 0.003;
+        camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.04;
+        camera.position.y += (-mouseY * 0.4 - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+        renderer.render(scene, camera);
+    }
+    animate3D();
+    
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        if (!renderer || !camera) return;
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        CONFIG.enableMouseInteraction = !window.matchMedia('(pointer: coarse)').matches;
-      }, 250);
-    }, { passive: true });
-
-    window.addEventListener('beforeunload', cleanup);
-    initThreeJS();
-  </script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cursor = document.getElementById('cursor');
-      const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-
-      if (!isTouchDevice && cursor) {
-        let cursorVisible = false;
-        document.addEventListener('mouseenter', () => { cursorVisible = true; cursor.classList.add('active'); });
-        document.addEventListener('mouseleave', () => { cursorVisible = false; cursor.classList.remove('active'); });
-        document.addEventListener('mousemove', (e) => {
-          if (!cursorVisible) return;
-          requestAnimationFrame(() => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-        }, { passive: true });
-        document.querySelectorAll('button, a, .hover-lift, .glass-card, input, textarea, [role="button"]').forEach(el => {
-          el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-          el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-        });
-        const threeCanvas = document.getElementById('three-canvas');
-        if (threeCanvas) {
-          threeCanvas.addEventListener('mouseenter', () => cursor.style.opacity = '0');
-          threeCanvas.addEventListener('mouseleave', () => cursor.style.opacity = '1');
-        }
-      }
-
-      let audioCtx = null, audioEnabled = false;
-      function initAudio() {
-        if (audioCtx) return;
-        try {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          audioEnabled = true;
-        } catch (e) {}
-      }
-      function playSound(f = 800, d = 0.15, v = 0.06) {
-        if (!audioEnabled || !audioCtx) return;
-        try {
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-          o.connect(g); g.connect(audioCtx.destination);
-          o.frequency.setValueAtTime(f, audioCtx.currentTime);
-          g.gain.setValueAtTime(v, audioCtx.currentTime);
-          g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
-          o.start(); o.stop(audioCtx.currentTime + d);
-        } catch (e) {}
-      }
-      ['click', 'touchstart', 'keydown'].forEach(ev => document.addEventListener(ev, initAudio, { once: true }));
-      document.querySelectorAll('button, a, .hover-lift, [role="button"]').forEach(el => {
-        el.addEventListener('click', (e) => { if (e.target.type !== 'submit') playSound(800, 0.15, 0.06); });
-        el.addEventListener('mouseenter', () => playSound(1200, 0.1, 0.04));
-        el.addEventListener('focus', () => playSound(1200, 0.1, 0.04));
-      });
-
-      const typedEl = document.getElementById('typed-subtext');
-      if (typedEl) {
-        const phrases = ["Creative Designer", "Future AI Expert", "100+ Canva Posts", "10-year-old Innovator"];
-        let pi = 0, ci = 0, cp = '', del = false, to;
-        function typeLoop() {
-          const full = phrases[pi];
-          cp = del ? full.substring(0, ci--) : full.substring(0, ci++);
-          typedEl.textContent = cp;
-          let sp;
-          if (!del && ci === full.length) { sp = 1500; del = true; }
-          else if (del && ci === 0) { del = false; pi = (pi + 1) % phrases.length; sp = 300; }
-          else sp = del ? 40 : 80;
-          to = setTimeout(typeLoop, sp);
-        }
-        typeLoop();
-        window.addEventListener('beforeunload', () => clearTimeout(to));
-      }
-
-      const form = document.getElementById('contact-form');
-      if (form) {
-        const n = document.getElementById('name'), e = document.getElementById('email'), m = document.getElementById('message');
-        const v = {
-          name: { validate: (x) => x.trim().length >= 2, message: 'Please enter your name (min 2 characters)' },
-          email: { validate: (x) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x), message: 'Please enter a valid email address' },
-          message: { validate: (x) => x.trim().length >= 10, message: 'Please enter a message (min 10 characters)' }
-        };
-        function se(inp, msg) { const s = inp.parentElement.querySelector('.error-message'); if (s) { s.textContent = msg; s.classList.remove('hidden'); } inp.setAttribute('aria-invalid', 'true'); inp.classList.add('border-red-400'); }
-        function ce(inp) { const s = inp.parentElement.querySelector('.error-message'); if (s) s.classList.add('hidden'); inp.removeAttribute('aria-invalid'); inp.classList.remove('border-red-400'); }
-        function vf(inp, val) { if (!val.validate(inp.value)) { se(inp, val.message); return false; } else { ce(inp); return true; } }
-        n?.addEventListener('input', () => vf(n, v.name)); e?.addEventListener('input', () => vf(e, v.email)); m?.addEventListener('input', () => vf(m, v.message));
-        n?.addEventListener('blur', () => vf(n, v.name)); e?.addEventListener('blur', () => vf(e, v.email)); m?.addEventListener('blur', () => vf(m, v.message));
-        form.addEventListener('submit', (ev) => {
-          ev.preventDefault();
-          if (vf(n, v.name) && vf(e, v.email) && vf(m, v.message)) {
-            const btn = form.querySelector('button[type="submit"]');
-            btn.textContent = '✓ Message Sent!'; btn.classList.add('bg-green-600');
-            setTimeout(() => { form.reset(); btn.textContent = 'Send Message ✦'; btn.classList.remove('bg-green-600'); }, 2000);
-            playSound(1000, 0.3, 0.08);
-          } else playSound(400, 0.2, 0.06);
-        });
-      }
-
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          gsap.from('#hero .glass-card', { scrollTrigger: { trigger: '#hero', start: 'top 80%' }, opacity: 0, y: 80, duration: 1.2, ease: 'power3.out' });
-          gsap.from('#about .glass-card', { scrollTrigger: { trigger: '#about', start: 'top 75%' }, opacity: 0, x: -70, duration: 1, stagger: 0.2, ease: 'back.out(1.4)' });
-          gsap.from('#skills .glass-card', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, opacity: 0, scale: 0.8, duration: 0.8, stagger: 0.15, ease: 'elastic.out(1, 0.8)' });
-          gsap.from('#projects .glass-card', { scrollTrigger: { trigger: '#projects', start: 'top 85%' }, opacity: 0, y: 50, duration: 0.7, stagger: 0.2 });
-          gsap.from('#goals .glass-card', { scrollTrigger: { trigger: '#goals', start: 'top 85%' }, opacity: 0, rotation: 2, y: 40, duration: 0.9, stagger: 0.2 });
-          gsap.from('#contact .glass-card', { scrollTrigger: { trigger: '#contact', start: 'top 85%' }, opacity: 0, scale: 0.9, duration: 1 });
-          gsap.from('#skills [role="progressbar"] div', { scrollTrigger: { trigger: '#skills', start: 'top 80%' }, width: 0, duration: 1.5, stagger: 0.1, ease: 'power2.out' });
-        }
-      }
     });
-  </script>
+</script>
+
+<!-- GSAP ScrollTrigger Animations (rare staggered + cinematic) -->
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero elements staggered
+    gsap.from(".glass-rare h1", { opacity: 0, y: 50, duration: 1, delay: 0.3 });
+    gsap.from(".glass-rare p", { opacity: 0, y: 30, duration: 0.8, delay: 0.5 });
+    gsap.from("#scrollExplore", { opacity: 0, scale: 0.9, duration: 0.6, delay: 0.8 });
+    
+    // sections appearance
+    gsap.utils.toArray("section").forEach((section, idx) => {
+        if(idx !== 0) {
+            gsap.from(section, {
+                scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" },
+                opacity: 0, y: 45, duration: 0.9, ease: "power2.out"
+            });
+        }
+    });
+    
+    // skill cards
+    gsap.from(".glass-card-rare.p-6", {
+        scrollTrigger: { trigger: ".grid.grid-cols-2.md\\:grid-cols-4", start: "top 85%" },
+        opacity: 0, scale: 0.92, stagger: 0.08, duration: 0.6
+    });
+    
+    // project cards stagger
+    gsap.from(".glass-card-rare.overflow-hidden", {
+        scrollTrigger: { trigger: ".grid.md\\:grid-cols-3", start: "top 85%" },
+        opacity: 0, y: 35, stagger: 0.12, duration: 0.8
+    });
+    
+    // smooth button scroll
+    document.getElementById("scrollExplore").addEventListener("click", () => {
+        window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+    });
+    document.getElementById("fakeContactBtn").addEventListener("click", () => alert("✨ Message transmitted! Azan will connect in the near future."));
+    document.getElementById("linkedinMockBtn").addEventListener("click", (e) => { e.preventDefault(); alert("🔗 LinkedIn: Muhammad Azan Haider — visionary shaping robotics & AI. (Demo)"); });
+    
+    // add micro hover on cards
+    const cards = document.querySelectorAll(".glass-card-rare");
+    cards.forEach(c => {
+        c.addEventListener("mouseenter", () => gsap.to(c, { scale: 1.01, duration: 0.2 }));
+        c.addEventListener("mouseleave", () => gsap.to(c, { scale: 1, duration: 0.2 }));
+    });
+</script>
 </body>
 </html>
