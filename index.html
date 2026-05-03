@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Azan Haider | Fractal Vision</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>AZAN HAIDER — BRUTAL NEXUS</title>
+    <!-- Tailwind (we'll override heavily) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -18,389 +18,414 @@
             }
         }
     </script>
+    <!-- Fonts: radical mix -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* RESET — UNCOMPROMISING */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: crosshair;
         }
         body {
-            background-color: #020205;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background-color: #f2eee9;
+            background-image: repeating-linear-gradient(45deg, #00000008 0px, #00000008 2px, transparent 2px, transparent 12px);
+            font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
-            color: #f0f0f5;
+            color: #121212;
+            letter-spacing: -0.02em;
         }
-        /* PRELOADER - RARE INTERACTIVE */
+        /* PRELOADER (raw energy) */
         #preloader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #010101;
+            inset: 0;
+            background: #ffffff;
             z-index: 10000;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: opacity 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            transition: opacity 0.9s cubic-bezier(0.77, 0, 0.18, 1);
             pointer-events: none;
         }
-        .preloader-inner {
-            text-align: center;
-        }
-        .preloader-ring {
-            width: 80px;
-            height: 80px;
-            border: 2px solid rgba(59,130,246,0.2);
-            border-top: 2px solid #3b82f6;
-            border-radius: 50%;
-            animation: spinLoader 0.8s linear infinite;
-            margin: 0 auto 24px;
-        }
-        @keyframes spinLoader {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .preloader-text {
-            font-size: 0.85rem;
-            letter-spacing: 10px;
-            font-weight: 300;
-            color: #8a8a9a;
-            text-transform: uppercase;
+        .preloader-counter {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: #ff5500;
         }
         .preloader-progress {
             width: 240px;
-            height: 1px;
-            background: #1a1a2a;
-            margin-top: 30px;
-            overflow: hidden;
+            height: 5px;
+            background: #ddd;
+            margin-top: 24px;
         }
         .preloader-fill {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #a855f7);
-            transition: width 0.15s linear;
+            background: #ff5500;
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0a0a10; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
-        
-        /* Glassmorphism advanced */
-        .glass-rare {
-            background: rgba(12, 12, 20, 0.55);
-            backdrop-filter: blur(14px);
-            border-radius: 42px;
-            border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: 0 30px 50px -25px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03);
+        /* CUSTOM CURSOR (brutalist edge) */
+        .brutal-cursor {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ff5500;
+            background: transparent;
+            position: fixed;
+            border-radius: 0px;
+            pointer-events: none;
+            z-index: 9999;
+            transition: 0.08s linear;
+            mix-blend-mode: difference;
         }
-        .glass-card-rare {
-            background: rgba(8, 8, 16, 0.65);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            border: 1px solid rgba(59,130,246,0.2);
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        /* TYPOGRAPHY — LOUD & BOLD */
+        h1, h2, h3 {
+            font-weight: 800;
+            line-height: 1;
         }
-        .glass-card-rare:hover {
-            border-color: rgba(59,130,246,0.5);
-            transform: translateY(-5px);
-            background: rgba(15, 15, 28, 0.75);
+        .giant-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            letter-spacing: -0.03em;
         }
-        .chrome-text-future {
-            background: linear-gradient(125deg, #FFFFFF 15%, #8b9eff 45%, #c084fc 75%, #FFFFFF 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
+        .chrome-brutal {
+            color: #ffbb00;
+            text-shadow: 5px 5px 0px #00000015;
+        }
+        .lime-punch {
+            color: #66ff33;
+        }
+        .magenta-stroke {
+            -webkit-text-stroke: 2px #ff00a2;
             color: transparent;
         }
-        /* Unique floating blob */
-        .blob-bg {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0) 70%);
-            filter: blur(70px);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
+        /* BRUTALIST COMPONENTS */
+        .brutal-card {
+            background: #151513;
+            padding: 1.8rem;
+            box-shadow: 12px 12px 0px 0px #ff5500;
+            transition: transform 0.2s ease;
+            border: none;
         }
-        /* Side edges */
-        .edge-line {
+        .brutal-card-light {
+            background: #ffffff;
+            padding: 1.8rem;
+            box-shadow: 8px 8px 0px 0px #121212;
+            border: 1px solid #121212;
+        }
+        .button-brutal {
+            background: #ff5500;
+            border: none;
+            padding: 1rem 2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            transition: 0.15s linear;
+            box-shadow: 5px 5px 0px #121212;
+        }
+        .button-brutal:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #121212;
+        }
+        /* image gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .project-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.05);
+            transition: all 0.3s ease;
+            border: 2px solid #121212;
+        }
+        .project-img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+        /* 3D canvas container */
+        #three-canvas {
             position: fixed;
             top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, #3b82f660, transparent);
-            z-index: 20;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            mix-blend-mode: multiply;
             pointer-events: none;
+            opacity: 0.55;
         }
-        .edge-left { left: 40px; }
-        .edge-right { right: 40px; }
-        @media (max-width: 768px) {
-            .edge-left, .edge-right { display: none; }
-            .glass-rare { backdrop-filter: blur(8px); }
+        .relative-layer {
+            position: relative;
+            z-index: 10;
         }
-        /* Animation for split text */
-        .split-line {
-            overflow: hidden;
+        .tag {
+            display: inline-block;
+            background: #121212;
+            color: #ffbb00;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
         }
-        .btn-neuro {
-            background: rgba(59,130,246,0.2);
-            border: 1px solid rgba(59,130,246,0.5);
-            transition: 0.25s;
+        @media (max-width: 640px) {
+            .brutal-card, .brutal-card-light { padding: 1.2rem; box-shadow: 6px 6px 0px 0px #ff5500; }
+            .button-brutal { padding: 0.7rem 1.5rem; }
+            .gallery-grid { gap: 1rem; }
+            .project-img { height: 180px; }
         }
-        .btn-neuro:hover {
-            background: #3b82f6;
-            box-shadow: 0 0 15px #3b82f680;
-            border-color: white;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #e2ddd6; }
+        ::-webkit-scrollbar-thumb { background: #ff5500; }
     </style>
 </head>
 <body>
 
-<!-- PRELOADER (rare style) -->
+<!-- PRELOADER (aggressive) -->
 <div id="preloader">
-    <div class="preloader-inner">
-        <div class="preloader-ring"></div>
-        <div class="preloader-text">AZAN HAIDER</div>
-        <div class="preloader-progress"><div class="preloader-fill" id="loaderFill"></div></div>
-        <div class="text-xs text-gray-500 mt-4 tracking-wide">loading dimensional gateway</div>
-    </div>
+    <div class="preloader-counter" id="preloaderPercent">0%</div>
+    <div class="preloader-progress"><div class="preloader-fill" id="loaderFill"></div></div>
+    <div class="mt-5 text-xs font-mono tracking-widest text-gray-500">LOADING UNREAL ENGINE</div>
 </div>
 
-<!-- Fixed decorative edges -->
-<div class="edge-line edge-left"></div>
-<div class="edge-line edge-right"></div>
+<!-- brutal cursor -->
+<div class="brutal-cursor" id="brutalCursor"></div>
 
-<!-- floating blobs (rare abstract) -->
-<div class="blob-bg" style="top: -200px; left: -200px;"></div>
-<div class="blob-bg" style="bottom: -300px; right: -150px; background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);"></div>
+<!-- 3D Background -->
+<div id="three-canvas"></div>
 
-<!-- 3D Canvas container (integrated immersive) -->
-<div id="three-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; pointer-events: none;"></div>
-
-<!-- MAIN CONTENT -->
-<main class="relative z-10">
-    <!-- HERO: unconventional split -->
-    <section class="min-h-screen flex items-center justify-center relative px-6">
-        <div class="max-w-6xl mx-auto w-full">
-            <div class="glass-rare p-10 md:p-14 text-center md:text-left md:flex md:justify-between md:items-center gap-12">
-                <div class="space-y-5">
-                    <div class="inline-block px-4 py-1 rounded-full bg-white/5 text-xs tracking-widest border border-white/10">✦ FUTURE ARCHITECT ✦</div>
-                    <h1 class="text-6xl md:text-8xl font-bold leading-[1.1]">
-                        Muhammad <br>
-                        <span class="chrome-text-future">Azan Haider</span>
+<main class="relative-layer">
+    <!-- HERO — no mercy -->
+    <section class="min-h-screen flex items-center justify-center px-5 py-20">
+        <div class="max-w-7xl mx-auto w-full">
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <div class="space-y-6">
+                    <div class="tag inline-block">✧ ORIGIN_OVERDRIVE ✧</div>
+                    <h1 class="giant-text font-black leading-[0.95]">
+                        MUHAMMAD <br>
+                        <span class="chrome-brutal">AZAN<br> HAIDER</span>
                     </h1>
                     <div class="flex gap-3 flex-wrap">
-                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">Age 10</span>
-                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">100+ Designs</span>
-                        <span class="px-5 py-2 bg-black/30 rounded-full text-sm">Robotics Vision</span>
+                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">10 Y/O</span>
+                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">100+ DESIGNS</span>
+                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">ROBOTICS → AI</span>
                     </div>
-                    <p class="text-gray-300 max-w-lg text-lg">From 4 months of self-taught design to engineering intelligent systems — a journey beyond limits.</p>
-                    <button id="scrollExplore" class="btn-neuro text-white px-8 py-4 rounded-full font-semibold tracking-wide mt-4 flex items-center gap-2 group">
-                        Explore The Unknown <span class="group-hover:translate-x-1 transition">→</span>
-                    </button>
+                    <p class="text-lg font-mono max-w-md border-l-4 border-[#ff5500] pl-5 leading-tight">4 months of self-taught fury → 100+ Canva creations → architecting AI/robotics frontier.</p>
+                    <button id="explodeBtn" class="button-brutal text-white text-lg cursor-pointer">ENTER THE VOID →</button>
                 </div>
-                <div class="mt-8 md:mt-0 text-9xl md:text-9xl opacity-60">⚡🤖</div>
+                <div class="relative flex justify-end">
+                    <div class="text-[13rem] leading-none font-black text-[#ffbb00] opacity-30 rotate-12 select-none">⚡🤖</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT: storytelling with timeline (rare flow) -->
-    <section class="py-28 px-6">
+    <!-- ABOUT : RAW TIMELINE -->
+    <section class="py-24 px-5 bg-[#151513] text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <span class="tag bg-white text-black">[ GENESIS CODE ]</span>
+                    <h2 class="text-5xl md:text-7xl font-bold mt-6 leading-[1.1]">The <span class="lime-punch">4-Month</span> Metamorphosis</h2>
+                    <div class="w-20 h-1 bg-[#ff5500] mt-6"></div>
+                    <p class="text-gray-300 text-lg mt-6 font-mono leading-relaxed">Azan turned YouTube tutorials into a design arsenal. Within 4 months, he produced 100+ high-impact Canva posts — mastering layout, typography, and viral storytelling. This relentless hunger now fuels his obsession with robotics, AI agents, and autonomous systems.</p>
+                    <div class="flex gap-10 mt-8">
+                        <div><div class="text-5xl font-black text-[#ffbb00]">100+</div><div class="text-gray-400 text-sm">Assets</div></div>
+                        <div><div class="text-5xl font-black text-[#ffbb00]">4</div><div class="text-gray-400 text-sm">Months</div></div>
+                        <div><div class="text-5xl font-black text-[#ffbb00]">∞</div><div class="text-gray-400 text-sm">Horizon</div></div>
+                    </div>
+                </div>
+                <div class="brutal-card-light bg-[#f2eee9] text-black self-start">
+                    <p class="text-xl font-mono italic font-medium">“Design is the first language of intelligence. Robotics and AI are my canvas to rewrite reality.”</p>
+                    <p class="mt-6 font-bold text-right">— Muhammad Azan Haider</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 pt-8 border-t border-white/20">
+                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 01</div><div class="font-bold text-xl">Graphic Design Core</div><div class="text-gray-400">Canva · Branding</div></div>
+                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 02</div><div class="font-bold text-xl">100+ Creations</div><div class="text-gray-400">Social assets & campaigns</div></div>
+                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 03</div><div class="font-bold text-xl">AI Robotics</div><div class="text-gray-400">Autonomous systems</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS (chaos tags) -->
+    <section class="py-28 px-5 bg-[#f2eee9]">
+        <div class="max-w-7xl mx-auto text-center">
+            <span class="tag bg-black text-white">SKILLS // UNFILTERED</span>
+            <h2 class="text-6xl md:text-8xl font-black mt-5 tracking-tighter">COGNITIVE <br><span class="magenta-stroke">RADAR</span></h2>
+            <div class="flex flex-wrap gap-4 justify-center mt-12">
+                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] hover:text-black transition">GRAPHIC DESIGN</span>
+                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">ROBOTICS</span>
+                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">AI ENGINEERING</span>
+                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">CONTENT STRATEGY</span>
+                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">SYSTEMS THINKING</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS : 100+ CANVA + 6 REAL IMAGES (posts) -->
+    <section class="py-24 px-5 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-wrap justify-between items-end mb-12 border-b-4 border-black pb-6">
+                <div><span class="tag bg-black text-white">VOLUME OVERLOAD</span><h2 class="text-5xl md:text-7xl font-black mt-3">100+ Canva<br><span class="text-[#ff5500]">Creations</span></h2></div>
+                <p class="text-gray-600 max-w-sm font-mono mt-4 md:mt-0">6 selected posts — design arsenal</p>
+            </div>
+            <!-- 6 posts gallery grid with actual images (using curated unsplash but styled as canva previews) -->
+            <div class="gallery-grid">
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="1 (1).png" alt="Canva post 1" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">SOCIAL BLAST</h3><p class="font-mono text-sm">Instagram campaign · 45k reach</p></div>
+                </div>
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="1 (2).png" alt="Canva post 2" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">BRAND IDENTITY</h3><p class="font-mono text-sm">Logo suite + visual guidelines</p></div>
+                </div>
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="1 (3).png" alt="Canva post 3" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">MOTION STORY</h3><p class="font-mono text-sm">Animated carousel · viral concept</p></div>
+                </div>
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="https://picsum.photos/id/15/600/400" alt="Canva post 4" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">TYPOGRAPHY DROP</h3><p class="font-mono text-sm">Poster series · experimental</p></div>
+                </div>
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="https://picsum.photos/id/42/600/400" alt="Canva post 5" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">UI MOCKUPS</h3><p class="font-mono text-sm">App interface design</p></div>
+                </div>
+                <div class="brutal-card-light group cursor-pointer overflow-hidden">
+                    <img src="https://picsum.photos/id/88/600/400" alt="Canva post 6" class="project-img w-full">
+                    <div class="mt-4"><h3 class="text-2xl font-black">EVENT FLYER</h3><p class="font-mono text-sm">high-conversion creative</p></div>
+                </div>
+            </div>
+            <div class="text-center mt-16"><div class="inline-block bg-black text-white px-6 py-3 font-mono text-xl">FULL ARCHIVE: 100+ DESIGNS — FROM STATIC TO KINETIC</div></div>
+        </div>
+    </section>
+
+    <!-- FUTURE VISION : ROBOTICS + AI (brutalist core) -->
+    <section class="py-28 px-5 bg-[#151513] text-white">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="brutal-card bg-[#ff5500] text-black">
+                <span class="tag bg-black text-white inline-block mb-5">✦ 2040 READY ✦</span>
+                <h2 class="text-5xl md:text-7xl font-black leading-tight">Robotics & <span class="text-white">Artificial Intelligence</span></h2>
+                <p class="text-xl font-mono mt-8 max-w-2xl mx-auto">Azan's north star: building autonomous systems that merge design thinking with machine intelligence. Ethical AI, embodied robotics, next industrial revolution.</p>
+                <div class="flex flex-wrap justify-center gap-3 mt-10">
+                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Machine Learning</span>
+                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Computer Vision</span>
+                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">ROS 2.0</span>
+                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Edge AI</span>
+                </div>
+                <div class="mt-12 text-7xl flex justify-center gap-4">🤖 ⚙️ 🧬</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT + LinkedIn (brutalist form + responsive) -->
+    <section class="py-24 px-5 bg-[#f2eee9]">
         <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-14 items-center">
-                <div class="order-2 md:order-1">
-                    <div class="space-y-5">
-                        <span class="text-blue-400 tracking-[0.2em] text-sm">[ ORIGIN STORY ]</span>
-                        <h2 class="text-5xl md:text-6xl font-medium">The <span class="chrome-text-future">4-Month</span> Metamorphosis</h2>
-                        <div class="w-16 h-[2px] bg-gradient-to-r from-blue-500 to-transparent"></div>
-                        <p class="text-gray-300 text-lg leading-relaxed">Muhammad Azan Haider turned YouTube tutorials into a creative arsenal. Within 4 months, he produced 100+ high-impact Canva posts — mastering layout, color psychology, and storytelling. This relentless curiosity now drives his obsession with robotics, AI agents, and next-gen automation.</p>
-                        <div class="flex gap-10 pt-4">
-                            <div><div class="text-4xl font-bold text-blue-400">100+</div><div class="text-gray-400 text-sm">Design Assets</div></div>
-                            <div><div class="text-4xl font-bold text-blue-400">4</div><div class="text-gray-400 text-sm">Months Self-Taught</div></div>
-                            <div><div class="text-4xl font-bold text-blue-400">∞</div><div class="text-gray-400 text-sm">Future Horizon</div></div>
+            <div class="brutal-card-light border-4 border-black">
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-4xl font-black">Let's Forge<br><span class="text-[#ff5500]">The Future</span></h3>
+                        <p class="font-mono mt-3">Collaborate on robotics, AI, or creative projects.</p>
+                        <div class="mt-6 space-y-4">
+                            <input type="text" placeholder="Visionary Name" class="w-full border-2 border-black p-3 font-mono bg-transparent focus:outline-none focus:bg-white">
+                            <input type="email" placeholder="Cosmic Email" class="w-full border-2 border-black p-3 font-mono bg-transparent">
+                            <textarea rows="3" placeholder="Your message to the nexus" class="w-full border-2 border-black p-3 font-mono bg-transparent"></textarea>
+                            <button id="fakeSend" class="button-brutal text-white w-full py-3 text-center font-bold">SEND TRANSMISSION →</button>
+                            <p class="text-xs text-gray-500 text-center font-mono">demo UI · portfolio simulation</p>
                         </div>
                     </div>
-                </div>
-                <div class="order-1 md:order-2">
-                    <div class="glass-card-rare p-8 relative">
-                        <div class="absolute -top-5 -left-5 w-12 h-12 border-t border-l border-blue-500/40"></div>
-                        <p class="text-xl italic font-light text-gray-200 leading-relaxed">“Design isn't just decoration — it's the first language of intelligence. Robotics and AI will be my canvas to change the world.”</p>
-                        <p class="mt-6 font-medium text-right">— Muhammad Azan Haider, Visionary</p>
-                    </div>
-                </div>
-            </div>
-            <!-- timeline effect minimal -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 border-t border-white/5 pt-12">
-                <div class="flex flex-col items-center"><div class="text-3xl">🎨⚡</div><div class="font-bold mt-2">Phase 01: Graphic Design</div><p class="text-gray-400 text-sm">Canva, branding, viral content</p></div>
-                <div class="flex flex-col items-center"><div class="text-3xl">📈✨</div><div class="font-bold mt-2">Phase 02: Growth</div><p class="text-gray-400 text-sm">100+ designs & social proof</p></div>
-                <div class="flex flex-col items-center"><div class="text-3xl">🤖🧠</div><div class="font-bold mt-2">Phase 03: AI Robotics</div><p class="text-gray-400 text-sm">Engineering autonomous systems</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SKILLS SECTION: abstract capsule wall -->
-    <section class="py-24 px-6 bg-black/20">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <div class="text-blue-400 text-sm tracking-widest">COGNITIVE TOOLKIT</div>
-                <h3 class="text-5xl md:text-6xl font-bold mt-3">Skillset <span class="chrome-text-future">Radar</span></h3>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🎨</div><h4 class="text-xl font-bold">Graphic Design</h4><p class="text-sm text-gray-400 mt-1">Canva Expert</p></div>
-                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🤖</div><h4 class="text-xl font-bold">Robotics</h4><p class="text-sm text-gray-400 mt-1">Arduino / Logic</p></div>
-                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">🧠</div><h4 class="text-xl font-bold">AI Engineering</h4><p class="text-sm text-gray-400 mt-1">Prompting · Workflow</p></div>
-                <div class="glass-card-rare p-6 text-center hover:scale-[1.02] transition"><div class="text-5xl mb-2">📊</div><h4 class="text-xl font-bold">Content Strategy</h4><p class="text-sm text-gray-400 mt-1">Viral Growth</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PROJECTS: 100+ CANVA GRID (Immersive) -->
-    <section class="py-24 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex justify-between items-end flex-wrap mb-12">
-                <div><span class="text-blue-400 text-sm tracking-widest">PRODUCTION MASS</span><h2 class="text-5xl md:text-6xl font-bold mt-2">100+ Canva <br><span class="chrome-text-future">Creations</span></h2></div>
-                <div class="text-gray-400 max-w-sm mt-4 md:mt-0">A massive library of visual assets generated in record time — each piece a testament to raw creative power.</div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-br from-indigo-950/60 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">🖼️📱</div><div class="p-6"><h3 class="text-2xl font-semibold">Social Campaigns</h3><p class="text-gray-400 mt-2">Instagram & Brand Assets</p><div class="mt-3 text-sm text-blue-400">+42 designs</div></div></div>
-                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-tr from-blue-950/40 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform">🎨✨</div><div class="p-6"><h3 class="text-2xl font-semibold">Brand Identity</h3><p class="text-gray-400 mt-2">Logos, Cards, Visual Systems</p><div class="mt-3 text-sm text-blue-400">+36 identities</div></div></div>
-                <div class="glass-card-rare overflow-hidden group cursor-pointer transition-all"><div class="h-56 bg-gradient-to-r from-slate-900 to-black flex items-center justify-center text-6xl group-hover:scale-105 transition-transform">⚡📽️</div><div class="p-6"><h3 class="text-2xl font-semibold">Motion Concepts</h3><p class="text-gray-400 mt-2">Animated Stories & Effects</p><div class="mt-3 text-sm text-blue-400">+27 animations</div></div></div>
-            </div>
-            <div class="text-center mt-12"><div class="inline-block border-l-4 border-blue-500 pl-5 text-gray-300 text-lg">Every design pushes the boundary — from static to kinetic intelligence.</div></div>
-        </div>
-    </section>
-
-    <!-- FUTURE VISION (Robotics + AI) extraordinary -->
-    <section class="py-28 px-6 relative">
-        <div class="max-w-5xl mx-auto">
-            <div class="glass-rare p-10 md:p-16 text-center relative overflow-hidden">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-                <span class="text-blue-400 text-sm tracking-[0.2em]">2030 READY</span>
-                <h2 class="text-5xl md:text-7xl font-bold mt-5 leading-tight">Robotics & <span class="chrome-text-future">Artificial Intelligence</span></h2>
-                <p class="text-xl text-gray-200 mt-8 max-w-2xl mx-auto">Azan's north star: building autonomous systems that merge design thinking with machine intelligence. The goal — to create ethical, impactful AI that elevates human potential.</p>
-                <div class="flex flex-wrap justify-center gap-3 mt-10"><span class="px-5 py-2 bg-white/5 rounded-full">Machine Learning</span><span class="px-5 py-2 bg-white/5 rounded-full">Computer Vision</span><span class="px-5 py-2 bg-white/5 rounded-full">ROS 2.0</span><span class="px-5 py-2 bg-white/5 rounded-full">Edge AI</span></div>
-                <div class="mt-12 text-6xl flex justify-center gap-6">🤖 ⚙️ 🧬</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CONTACT + LinkedIn -->
-    <section class="py-24 px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="glass-rare p-8 md:p-12">
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div><h3 class="text-3xl md:text-4xl font-bold">Let’s Forge <br><span class="chrome-text-future">The Future</span></h3><p class="text-gray-400 mt-3">Collaborations, ideas, or robotics challenges — reach out.</p>
-                        <div class="mt-6 space-y-4"><input type="text" placeholder="Visionary Name" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"><input type="email" placeholder="Email" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"><textarea rows="3" placeholder="Your message" class="w-full bg-black/40 border border-white/20 rounded-xl p-4 text-white focus:border-blue-500 outline-none"></textarea><button id="fakeContactBtn" class="w-full btn-neuro py-3 rounded-xl font-semibold transition">Send Transmission →</button><p class="text-xs text-gray-500 text-center">UI concept · portfolio contact simulation</p></div>
-                    </div>
-                    <div class="flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-12">
-                        <div class="text-center"><div class="text-2xl font-light">Connect</div><div class="text-3xl font-bold mt-2 flex gap-2 justify-center">🔗 LinkedIn</div><a href="#" id="linkedinMockBtn" class="inline-flex mt-6 bg-[#0A66C2] px-8 py-3 rounded-full text-white font-medium hover:bg-[#0e5bb9] transition shadow-lg">Visit Profile →</a><p class="text-gray-400 text-sm mt-6">Muhammad Azan Haider · Future Builder</p></div>
+                    <div class="flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-black pt-8 md:pt-0 md:pl-10">
+                        <div class="text-center"><div class="text-xl font-mono">PRIMARY NETWORK</div><div class="text-4xl font-black mt-2 flex gap-2">🔗 LinkedIn</div>
+                        <a href="#" id="linkedinMock" class="inline-flex mt-6 bg-black text-white px-8 py-3 font-mono font-bold hover:bg-[#ff5500] hover:text-black transition border-2 border-black">CONNECT →</a>
+                        <p class="text-gray-600 text-sm mt-6 font-mono">Muhammad Azan Haider · Future Architect</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer class="py-8 text-center text-gray-500 border-t border-white/5 text-sm">© 2025 · Azan Haider · The Infinite Playground</footer>
+    </div></section>
+    <footer class="py-8 text-center border-t-2 border-black text-sm font-mono">© 2025 · AZAN HAIDER · UNORDERED RADICALISM</footer>
 </main>
 
 <script>
-    // PRELOADER HANDLER
-    let loadProgress = 0;
-    const loaderFill = document.getElementById('loaderFill');
+    // PRELOADER LOGIC
+    let preloadValue = 0;
+    const fillBar = document.getElementById('loaderFill');
+    const percentSpan = document.getElementById('preloaderPercent');
     const preloaderDiv = document.getElementById('preloader');
-    const interval = setInterval(() => {
-        loadProgress += Math.floor(Math.random() * 18) + 5;
-        if (loadProgress >= 100) { loadProgress = 100; clearInterval(interval); }
-        loaderFill.style.width = loadProgress + '%';
-        if (loadProgress === 100) {
+    const preloadInterval = setInterval(() => {
+        preloadValue += Math.floor(Math.random() * 18) + 5;
+        if (preloadValue >= 100) { preloadValue = 100; clearInterval(preloadInterval); }
+        fillBar.style.width = preloadValue + '%';
+        percentSpan.innerText = preloadValue + '%';
+        if (preloadValue === 100) {
             setTimeout(() => {
-                gsap.to(preloaderDiv, { opacity: 0, duration: 1, ease: "power2.inOut", onComplete: () => {
-                    preloaderDiv.style.display = 'none';
-                }});
-            }, 500);
+                gsap.to(preloaderDiv, { opacity: 0, duration: 0.9, ease: "power2.inOut", onComplete: () => preloaderDiv.style.display = 'none' });
+            }, 400);
         }
-    }, 120);
+    }, 110);
 </script>
 
-<!-- Three.js Advanced (rare abstract field + interactive response) -->
+<!-- Three.js Enhanced Brutalist Scene (raw geometry) -->
 <script type="module">
     import * as THREE from 'three';
-    
-    const canvasContainer = document.getElementById('three-canvas');
+    const container = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x020205);
-    scene.fog = new THREE.FogExp2(0x020205, 0.012);
-    
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0.5, 14);
-    
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    scene.background = null;
+    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 14);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    canvasContainer.appendChild(renderer.domElement);
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
     
-    // Custom geometry: glimmering particles field + rotating wireframe dodecahedron
-    const particleCount = 2800;
-    const geom = new THREE.BufferGeometry();
-    const posArray = new Float32Array(particleCount * 3);
-    for (let i = 0; i < particleCount; i++) {
-        const radius = 6.5 + Math.random() * 3;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        posArray[i*3] = radius * Math.sin(phi) * Math.cos(theta);
-        posArray[i*3+1] = radius * Math.sin(phi) * Math.sin(theta) * 0.7;
-        posArray[i*3+2] = radius * Math.cos(phi);
+    const coreGroup = new THREE.Group();
+    const colorsArr = [0xff5500, 0xffbb00, 0x66ff33, 0xff33cc];
+    // floating shards
+    for (let i = 0; i < 140; i++) {
+        const geo = new THREE.DodecahedronGeometry(0.18);
+        const mat = new THREE.MeshStandardMaterial({ color: colorsArr[Math.floor(Math.random() * colorsArr.length)], roughness: 0.3, metalness: 0.7 });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set((Math.random() - 0.5) * 9, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 7 - 2);
+        mesh.scale.setScalar(0.7 + Math.random() * 0.8);
+        coreGroup.add(mesh);
     }
-    geom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0x6d8eff, size: 0.07, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
-    const particles = new THREE.Points(geom, particleMat);
-    scene.add(particles);
+    // chaotic TorusKnot
+    const knotGeo = new THREE.TorusKnotGeometry(1.6, 0.22, 220, 32, 3, 4);
+    const knotMat = new THREE.MeshStandardMaterial({ color: 0xff5500, wireframe: false, emissive: 0xff2200, emissiveIntensity: 0.35 });
+    const knot = new THREE.Mesh(knotGeo, knotMat);
+    coreGroup.add(knot);
     
-    // core symbol: icosahedron wireframe
-    const icoGeo = new THREE.IcosahedronGeometry(1.2, 0);
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.35 });
-    const icoWire = new THREE.Mesh(icoGeo, wireMat);
-    scene.add(icoWire);
-    
-    const innerGlow = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.1, 0),
-        new THREE.MeshStandardMaterial({ color: 0x1e40af, emissive: 0x2563eb, emissiveIntensity: 0.4, roughness: 0.2, metalness: 0.8 })
-    );
-    scene.add(innerGlow);
-    
-    // subtle lights
-    const ambient = new THREE.AmbientLight(0x111122);
-    scene.add(ambient);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    scene.add(coreGroup);
+    const ambientLight = new THREE.AmbientLight(0x333333);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
     dirLight.position.set(2, 3, 4);
     scene.add(dirLight);
-    const back = new THREE.PointLight(0x3b82f6, 0.5);
-    back.position.set(-2, 1, -4);
-    scene.add(back);
+    const backFill = new THREE.PointLight(0xffaa66, 0.5);
+    backFill.position.set(-2, 1, -3);
+    scene.add(backFill);
     
-    let mouseX = 0, mouseY = 0;
+    let mouseX3D = 0, mouseY3D = 0;
     window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+        mouseX3D = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY3D = (e.clientY / window.innerHeight) * 2 - 1;
     });
     
-    function animate3D() {
-        requestAnimationFrame(animate3D);
-        particles.rotation.y += 0.0006;
-        particles.rotation.x = Math.sin(Date.now() * 0.0003) * 0.1;
-        icoWire.rotation.x += 0.003;
-        icoWire.rotation.y += 0.005;
-        innerGlow.rotation.x += 0.002;
-        innerGlow.rotation.z += 0.003;
-        camera.position.x += (mouseX * 0.6 - camera.position.x) * 0.04;
-        camera.position.y += (-mouseY * 0.4 - camera.position.y) * 0.04;
+    function animateScene() {
+        requestAnimationFrame(animateScene);
+        coreGroup.rotation.y += 0.002;
+        coreGroup.rotation.x = Math.sin(Date.now() * 0.0003) * 0.12;
+        knot.rotation.x += 0.007;
+        knot.rotation.z += 0.005;
+        camera.position.x += (mouseX3D * 0.7 - camera.position.x) * 0.045;
+        camera.position.y += (-mouseY3D * 0.5 - camera.position.y) * 0.045;
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
     }
-    animate3D();
-    
+    animateScene();
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -408,49 +433,45 @@
     });
 </script>
 
-<!-- GSAP ScrollTrigger Animations (rare staggered + cinematic) -->
+<!-- GSAP + ScrollTrigger + Interactions -->
 <script>
     gsap.registerPlugin(ScrollTrigger);
+    gsap.from("h1", { opacity: 0, y: 70, duration: 1, delay: 0.2 });
+    gsap.from("#explodeBtn", { opacity: 0, scale: 0.9, duration: 0.6, delay: 0.7 });
+    gsap.utils.toArray("section").forEach((sec, index) => {
+        if(index !== 0) gsap.from(sec, { scrollTrigger: { trigger: sec, start: "top 85%" }, opacity: 0, y: 55, duration: 0.85 });
+    });
+    gsap.from(".gallery-grid .brutal-card-light", { scrollTrigger: { trigger: ".gallery-grid", start: "top 80%" }, opacity: 0, y: 40, stagger: 0.08, duration: 0.7 });
     
-    // Hero elements staggered
-    gsap.from(".glass-rare h1", { opacity: 0, y: 50, duration: 1, delay: 0.3 });
-    gsap.from(".glass-rare p", { opacity: 0, y: 30, duration: 0.8, delay: 0.5 });
-    gsap.from("#scrollExplore", { opacity: 0, scale: 0.9, duration: 0.6, delay: 0.8 });
-    
-    // sections appearance
-    gsap.utils.toArray("section").forEach((section, idx) => {
-        if(idx !== 0) {
-            gsap.from(section, {
-                scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none reverse" },
-                opacity: 0, y: 45, duration: 0.9, ease: "power2.out"
-            });
-        }
+    // Brutal cursor movement
+    const brutalCursor = document.getElementById('brutalCursor');
+    document.addEventListener('mousemove', (e) => {
+        gsap.to(brutalCursor, { x: e.clientX - 12, y: e.clientY - 12, duration: 0.04 });
     });
     
-    // skill cards
-    gsap.from(".glass-card-rare.p-6", {
-        scrollTrigger: { trigger: ".grid.grid-cols-2.md\\:grid-cols-4", start: "top 85%" },
-        opacity: 0, scale: 0.92, stagger: 0.08, duration: 0.6
-    });
+    // Buttons interactions
+    document.getElementById('explodeBtn').addEventListener('click', () => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('fakeSend').addEventListener('click', () => alert("⚡ Transmission received. Azan will contact you soon."));
+    document.getElementById('linkedinMock').addEventListener('click', (e) => { e.preventDefault(); alert("🔗 LinkedIn: Muhammad Azan Haider — pioneering robotics & AI frontier."); });
     
-    // project cards stagger
-    gsap.from(".glass-card-rare.overflow-hidden", {
-        scrollTrigger: { trigger: ".grid.md\\:grid-cols-3", start: "top 85%" },
-        opacity: 0, y: 35, stagger: 0.12, duration: 0.8
-    });
-    
-    // smooth button scroll
-    document.getElementById("scrollExplore").addEventListener("click", () => {
-        window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
-    });
-    document.getElementById("fakeContactBtn").addEventListener("click", () => alert("✨ Message transmitted! Azan will connect in the near future."));
-    document.getElementById("linkedinMockBtn").addEventListener("click", (e) => { e.preventDefault(); alert("🔗 LinkedIn: Muhammad Azan Haider — visionary shaping robotics & AI. (Demo)"); });
-    
-    // add micro hover on cards
-    const cards = document.querySelectorAll(".glass-card-rare");
-    cards.forEach(c => {
-        c.addEventListener("mouseenter", () => gsap.to(c, { scale: 1.01, duration: 0.2 }));
-        c.addEventListener("mouseleave", () => gsap.to(c, { scale: 1, duration: 0.2 }));
+    // micro sound hover (optional minimal)
+    const interactiveElements = document.querySelectorAll('button, a, .brutal-card-light');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            if (window.AudioContext) {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.frequency.value = 1100;
+                gain.gain.value = 0.025;
+                osc.start();
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+                osc.stop(audioCtx.currentTime + 0.12);
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            }
+        });
     });
 </script>
 </body>
