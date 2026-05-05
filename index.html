@@ -272,18 +272,18 @@
                 <div><span class="tag bg-black text-white">VOLUME OVERLOAD</span><h2 class="text-5xl md:text-7xl font-black mt-3">100+ Canva<br><span class="text-[#ff5500]">Creations</span></h2></div>
                 <p class="text-gray-600 max-w-sm font-mono mt-4 md:mt-0">6 selected posts — design arsenal</p>
             </div>
-            <!-- 6 posts gallery grid with actual images (using curated unsplash but styled as canva previews) -->
+            <!-- 6 posts gallery grid -->
             <div class="gallery-grid">
                 <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (1).png" alt="Canva post 1" class="project-img w-full">
+                    <img src="1 (1).png" alt="Canva post 1" class="project-img w-full" onerror="this.src='https://picsum.photos/id/20/600/400'">
                     <div class="mt-4"><h3 class="text-2xl font-black">SOCIAL BLAST</h3><p class="font-mono text-sm">Instagram campaign · 45k reach</p></div>
                 </div>
                 <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (2).png" alt="Canva post 2" class="project-img w-full">
+                    <img src="1 (2).png" alt="Canva post 2" class="project-img w-full" onerror="this.src='https://picsum.photos/id/26/600/400'">
                     <div class="mt-4"><h3 class="text-2xl font-black">BRAND IDENTITY</h3><p class="font-mono text-sm">Logo suite + visual guidelines</p></div>
                 </div>
                 <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (3).png" alt="Canva post 3" class="project-img w-full">
+                    <img src="1 (3).png" alt="Canva post 3" class="project-img w-full" onerror="this.src='https://picsum.photos/id/32/600/400'">
                     <div class="mt-4"><h3 class="text-2xl font-black">MOTION STORY</h3><p class="font-mono text-sm">Animated carousel · viral concept</p></div>
                 </div>
                 <div class="brutal-card-light group cursor-pointer overflow-hidden">
@@ -300,6 +300,21 @@
                 </div>
             </div>
             <div class="text-center mt-16"><div class="inline-block bg-black text-white px-6 py-3 font-mono text-xl">FULL ARCHIVE: 100+ DESIGNS — FROM STATIC TO KINETIC</div></div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATE LINK - SIMPLE (apni PDF ka naam yahan lagayein) -->
+    <section class="py-16 px-5 bg-[#f2eee9]">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="brutal-card-light border-4 border-black p-8">
+                <div class="text-6xl mb-4">📜🏆</div>
+                <h3 class="text-3xl font-black">Official Certification</h3>
+                <p class="font-mono my-3 text-gray-700">Verified Achievement — Graphic Design Mastery</p>
+                <a href="certificate.pdf" download id="certLink" class="button-brutal inline-block text-white px-8 py-3 font-bold">
+                    ⬇️ DOWNLOAD CERTIFICATE (PDF)
+                </a>
+                <p class="text-xs text-gray-400 mt-4 font-mono">*Place your PDF file named <span class="bg-black text-white px-2 py-0.5 rounded">certificate.pdf</span> in the same folder</p>
+            </div>
         </div>
     </section>
 
@@ -338,14 +353,17 @@
                         </div>
                     </div>
                     <div class="flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-black pt-8 md:pt-0 md:pl-10">
-                        <div class="text-center"><div class="text-xl font-mono">PRIMARY NETWORK</div><div class="text-4xl font-black mt-2 flex gap-2">🔗 LinkedIn</div>
-                        <a href="#" id="linkedinMock" class="inline-flex mt-6 bg-black text-white px-8 py-3 font-mono font-bold hover:bg-[#ff5500] hover:text-black transition border-2 border-black">CONNECT →</a>
-                        <p class="text-gray-600 text-sm mt-6 font-mono">Muhammad Azan Haider · Future Architect</p>
+                        <div class="text-center">
+                            <div class="text-xl font-mono">PRIMARY NETWORK</div>
+                            <div class="text-4xl font-black mt-2 flex gap-2">🔗 LinkedIn</div>
+                            <a href="#" id="linkedinMock" class="inline-flex mt-6 bg-black text-white px-8 py-3 font-mono font-bold hover:bg-[#ff5500] hover:text-black transition border-2 border-black">CONNECT →</a>
+                            <p class="text-gray-600 text-sm mt-6 font-mono">Muhammad Azan Haider · Future Architect</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div></section>
+    </section>
     <footer class="py-8 text-center border-t-2 border-black text-sm font-mono">© 2025 · AZAN HAIDER · UNORDERED RADICALISM</footer>
 </main>
 
@@ -368,7 +386,7 @@
     }, 110);
 </script>
 
-<!-- Three.js Enhanced Brutalist Scene (raw geometry) -->
+<!-- Three.js Enhanced Brutalist Scene -->
 <script type="module">
     import * as THREE from 'three';
     const container = document.getElementById('three-canvas');
@@ -454,7 +472,13 @@
     document.getElementById('fakeSend').addEventListener('click', () => alert("⚡ Transmission received. Azan will contact you soon."));
     document.getElementById('linkedinMock').addEventListener('click', (e) => { e.preventDefault(); alert("🔗 LinkedIn: Muhammad Azan Haider — pioneering robotics & AI frontier."); });
     
-    // micro sound hover (optional minimal)
+    // Certificate link feedback
+    document.getElementById('certLink')?.addEventListener('click', function(e) {
+        // Just a feedback - file will download if exists
+        console.log("Downloading certificate...");
+    });
+    
+    // micro sound hover
     const interactiveElements = document.querySelectorAll('button, a, .brutal-card-light');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
