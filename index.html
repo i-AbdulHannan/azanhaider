@@ -1,502 +1,967 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>AZAN HAIDER — BRUTAL NEXUS</title>
-    <!-- Tailwind (we'll override heavily) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP & ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Three.js -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
-    </script>
-    <!-- Fonts: radical mix -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* RESET — UNCOMPROMISING */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: crosshair;
-        }
-        body {
-            background-color: #f2eee9;
-            background-image: repeating-linear-gradient(45deg, #00000008 0px, #00000008 2px, transparent 2px, transparent 12px);
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-            color: #121212;
-            letter-spacing: -0.02em;
-        }
-        /* PRELOADER (raw energy) */
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.9s cubic-bezier(0.77, 0, 0.18, 1);
-            pointer-events: none;
-        }
-        .preloader-counter {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 5rem;
-            font-weight: 800;
-            letter-spacing: -0.05em;
-            color: #ff5500;
-        }
-        .preloader-progress {
-            width: 240px;
-            height: 5px;
-            background: #ddd;
-            margin-top: 24px;
-        }
-        .preloader-fill {
-            width: 0%;
-            height: 100%;
-            background: #ff5500;
-        }
-        /* CUSTOM CURSOR (brutalist edge) */
-        .brutal-cursor {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #ff5500;
-            background: transparent;
-            position: fixed;
-            border-radius: 0px;
-            pointer-events: none;
-            z-index: 9999;
-            transition: 0.08s linear;
-            mix-blend-mode: difference;
-        }
-        /* TYPOGRAPHY — LOUD & BOLD */
-        h1, h2, h3 {
-            font-weight: 800;
-            line-height: 1;
-        }
-        .giant-text {
-            font-size: clamp(3rem, 10vw, 8rem);
-            letter-spacing: -0.03em;
-        }
-        .chrome-brutal {
-            color: #ffbb00;
-            text-shadow: 5px 5px 0px #00000015;
-        }
-        .lime-punch {
-            color: #66ff33;
-        }
-        .magenta-stroke {
-            -webkit-text-stroke: 2px #ff00a2;
-            color: transparent;
-        }
-        /* BRUTALIST COMPONENTS */
-        .brutal-card {
-            background: #151513;
-            padding: 1.8rem;
-            box-shadow: 12px 12px 0px 0px #ff5500;
-            transition: transform 0.2s ease;
-            border: none;
-        }
-        .brutal-card-light {
-            background: #ffffff;
-            padding: 1.8rem;
-            box-shadow: 8px 8px 0px 0px #121212;
-            border: 1px solid #121212;
-        }
-        .button-brutal {
-            background: #ff5500;
-            border: none;
-            padding: 1rem 2rem;
-            font-weight: 800;
-            font-family: 'JetBrains Mono', monospace;
-            transition: 0.15s linear;
-            box-shadow: 5px 5px 0px #121212;
-        }
-        .button-brutal:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #121212;
-        }
-        /* image gallery grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        .project-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(1.05);
-            transition: all 0.3s ease;
-            border: 2px solid #121212;
-        }
-        .project-img:hover {
-            filter: grayscale(0%);
-            transform: scale(1.02);
-        }
-        /* 3D canvas container */
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            mix-blend-mode: multiply;
-            pointer-events: none;
-            opacity: 0.55;
-        }
-        .relative-layer {
-            position: relative;
-            z-index: 10;
-        }
-        .tag {
-            display: inline-block;
-            background: #121212;
-            color: #ffbb00;
-            font-family: 'JetBrains Mono', monospace;
-            padding: 0.3rem 1rem;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-        }
-        @media (max-width: 640px) {
-            .brutal-card, .brutal-card-light { padding: 1.2rem; box-shadow: 6px 6px 0px 0px #ff5500; }
-            .button-brutal { padding: 0.7rem 1.5rem; }
-            .gallery-grid { gap: 1rem; }
-            .project-img { height: 180px; }
-        }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #e2ddd6; }
-        ::-webkit-scrollbar-thumb { background: #ff5500; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="Muhammad Azan - 10-year-old Canva designer with 160+ designs, future Pakistan Air Force Squadron Leader.">
+  <meta name="theme-color" content="#3852B4">
+  <title>Muhammad Azan | Young Designer & Future Squadron Leader ✈️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+    body {
+      background: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1a1f36;
+      line-height: 1.5;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+    h1, h2, h3, .stat-number {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+    }
+    :root {
+      --primary: #3852B4;
+      --secondary: #5E7AC4;
+      --accent: #F3BE7A;
+      --highlight: #F08D39;
+      --white: #FFFFFF;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(56, 82, 180, 0.2);
+      --shadow-sm: 0 8px 20px rgba(56, 82, 180, 0.08);
+      --shadow-md: 0 20px 35px rgba(56, 82, 180, 0.12);
+      --shadow-lg: 0 30px 50px rgba(56, 82, 180, 0.2);
+    }
+
+    /* ========== FIGHTER JET PRELOADER ========== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #FFFFFF;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      overflow: hidden;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .preloader-jet-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: jetPulse 1.5s ease-in-out infinite;
+    }
+    .preloader-jet {
+      font-size: 70px;
+      animation: flyJet 1.2s ease-in-out infinite;
+      display: block;
+      text-align: center;
+    }
+    .preloader-trail {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(90deg, transparent, var(--highlight), var(--accent), transparent);
+      border-radius: 50%;
+      animation: trailGlow 0.9s ease-in-out infinite;
+    }
+    .preloader-text {
+      margin-top: 25px;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      animation: textBlink 1.4s infinite;
+    }
+    .loading-bar {
+      width: 180px;
+      height: 5px;
+      background: #e0e7ff;
+      border-radius: 10px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+    .loading-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--highlight));
+      border-radius: 10px;
+      animation: fillBar 2.2s ease-out forwards;
+    }
+
+    @keyframes jetPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    @keyframes flyJet {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(-3deg); }
+      75% { transform: translateY(6px) rotate(3deg); }
+    }
+    @keyframes trailGlow {
+      0%, 100% { opacity: 0.5; width: 50px; }
+      50% { opacity: 1; width: 75px; }
+    }
+    @keyframes textBlink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    @keyframes fillBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    #hero-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(0.8rem, 2vw, 2rem);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #1a1f36;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      transition: color 0.3s;
+      position: relative;
+      white-space: nowrap;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--highlight);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      padding: clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 2rem);
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: transparent;
+      position: relative;
+      z-index: 3;
+      padding: 1rem;
+    }
+    .hero-content {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: clamp(2rem, 5vw, 3.5rem);
+      padding: clamp(1.8rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.8rem);
+      box-shadow: var(--shadow-lg);
+      max-width: 950px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .hero-sub {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2vw, 1.5rem);
+      margin: 2rem 0;
+      font-weight: 600;
+    }
+    .hero-sub span {
+      background: rgba(94, 122, 196, 0.12);
+      padding: 0.5rem 1.3rem;
+      border-radius: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      backdrop-filter: blur(4px);
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      white-space: nowrap;
+    }
+    .cta-group {
+      display: flex;
+      gap: clamp(1rem, 3vw, 1.5rem);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .btn-primary, .btn-outline {
+      padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.5rem, 4vw, 2.4rem);
+      border-radius: 3rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 10px 20px rgba(56,82,180,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-4px);
+      box-shadow: 0 22px 32px rgba(56,82,180,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .glass-card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56,82,180,0.2);
+      border-radius: clamp(1.5rem, 3vw, 2.2rem);
+      padding: clamp(1.2rem, 3vw, 2rem);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      width: 100%;
+    }
+    .glass-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      margin-top: 2rem;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--highlight);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(1.2rem, 3vw, 2.2rem);
+      margin-top: 2.5rem;
+    }
+    .design-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .design-img {
+      height: clamp(140px, 25vw, 200px);
+      border-radius: 1.5rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      background: #e0e7ff;
+    }
+    .design-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .design-card:hover .design-img img {
+      transform: scale(1.08);
+    }
+    .design-img .placeholder-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .certificate-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: clamp(1rem, 3vw, 2rem);
+      margin-top: 2rem;
+    }
+    .cert-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .cert-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+    .cert-img-container {
+      height: 200px;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f0f4ff;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cert-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1rem;
+    }
+    .cert-img-container .pdf-icon {
+      font-size: 4rem;
+      opacity: 0.6;
+    }
+    .cert-view-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+    }
+    .cert-view-btn:hover {
+      background: var(--secondary);
+    }
+
+    /* PDF Modal */
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .pdf-modal.active {
+      display: flex;
+    }
+    .pdf-modal-content {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 900px;
+      height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .pdf-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--primary);
+      z-index: 10;
+      background: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .pdf-modal-close:hover {
+      background: #f0f0f0;
+    }
+    .pdf-modal iframe {
+      flex: 1;
+      border: none;
+      border-radius: 1rem;
+      width: 100%;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.2rem, 3vw, 2rem);
+      margin-top: 1.5rem;
+      position: relative;
+      padding-left: clamp(1.5rem, 4vw, 2.2rem);
+      border-left: 3px dashed var(--secondary);
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: clamp(1rem, 3vw, 1.8rem);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+    }
+    .timeline-item::before {
+      content: '✈️';
+      position: absolute;
+      left: -2.75rem;
+      background: white;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      top: 0;
+    }
+
+    .footer {
+      text-align: center;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--glass-border);
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.8rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .nav-links {
+        justify-content: center;
+        width: 100%;
+      }
+      section {
+        padding-top: 6rem;
+      }
+      .hero {
+        padding-top: 5rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-sub span {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+      }
+      .btn-primary, .btn-outline {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- ========== FIGHTER JET PRELOADER ========== -->
+  <div id="preloader">
+    <div class="preloader-jet-container">
+      <span class="preloader-jet">✈️</span>
+      <div class="preloader-trail"></div>
+    </div>
+    <div class="preloader-text">PREPARING FOR TAKEOFF</div>
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
+    </div>
+  </div>
 
-<!-- PRELOADER (aggressive) -->
-<div id="preloader">
-    <div class="preloader-counter" id="preloaderPercent">0%</div>
-    <div class="preloader-progress"><div class="preloader-fill" id="loaderFill"></div></div>
-    <div class="mt-5 text-xs font-mono tracking-widest text-gray-500">LOADING UNREAL ENGINE</div>
-</div>
+  <!-- PDF Modal -->
+  <div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-content">
+      <span class="pdf-modal-close" id="closePdfModal">&times;</span>
+      <iframe id="pdfViewer" src="" title="Certificate PDF Viewer"></iframe>
+    </div>
+  </div>
 
-<!-- brutal cursor -->
-<div class="brutal-cursor" id="brutalCursor"></div>
+  <canvas id="hero-canvas"></canvas>
 
-<!-- 3D Background -->
-<div id="three-canvas"></div>
+  <div class="content">
+    <nav class="navbar">
+      <div class="logo">✈️ AZAN</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#designs">Designs</a>
+        <a href="#certificates">Certificates</a>
+        <a href="#paf">PAF Dream</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
 
-<main class="relative-layer">
-    <!-- HERO — no mercy -->
-    <section class="min-h-screen flex items-center justify-center px-5 py-20">
-        <div class="max-w-7xl mx-auto w-full">
-            <div class="grid md:grid-cols-2 gap-10 items-start">
-                <div class="space-y-6">
-                    <div class="tag inline-block">✧ ORIGIN_OVERDRIVE ✧</div>
-                    <h1 class="giant-text font-black leading-[0.95]">
-                        MUHAMMAD <br>
-                        <span class="chrome-brutal">AZAN<br> HAIDER</span>
-                    </h1>
-                    <div class="flex gap-3 flex-wrap">
-                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">10 Y/O</span>
-                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">100+ DESIGNS</span>
-                        <span class="bg-black text-white px-3 py-1.5 text-sm font-mono font-bold">ROBOTICS → AI</span>
-                    </div>
-                    <p class="text-lg font-mono max-w-md border-l-4 border-[#ff5500] pl-5 leading-tight">4 months of self-taught fury → 100+ Canva creations → architecting AI/robotics frontier.</p>
-                    <button id="explodeBtn" class="button-brutal text-white text-lg cursor-pointer">ENTER THE VOID →</button>
-                </div>
-                <div class="relative flex justify-end">
-                    <div class="text-[13rem] leading-none font-black text-[#ffbb00] opacity-30 rotate-12 select-none">⚡🤖</div>
-                </div>
-            </div>
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Muhammad Azan<br>Young Canva Designer & Future Squadron Leader</h1>
+        <div class="hero-sub">
+          <span>⭐ 10 Years Old</span>
+          <span>🎨 160+ Designs</span>
+          <span>📜 Certificates</span>
+          <span>✈️ Future PAF Leader</span>
         </div>
+        <div class="cta-group">
+          <a href="#designs" class="btn-primary">View Portfolio</a>
+          <a href="#contact" class="btn-outline">Contact Me</a>
+        </div>
+      </div>
     </section>
 
-    <!-- ABOUT : RAW TIMELINE -->
-    <section class="py-24 px-5 bg-[#151513] text-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-16">
-                <div>
-                    <span class="tag bg-white text-black">[ GENESIS CODE ]</span>
-                    <h2 class="text-5xl md:text-7xl font-bold mt-6 leading-[1.1]">The <span class="lime-punch">4-Month</span> Metamorphosis</h2>
-                    <div class="w-20 h-1 bg-[#ff5500] mt-6"></div>
-                    <p class="text-gray-300 text-lg mt-6 font-mono leading-relaxed">Azan turned YouTube tutorials into a design arsenal. Within 4 months, he produced 100+ high-impact Canva posts — mastering layout, typography, and viral storytelling. This relentless hunger now fuels his obsession with robotics, AI agents, and autonomous systems.</p>
-                    <div class="flex gap-10 mt-8">
-                        <div><div class="text-5xl font-black text-[#ffbb00]">100+</div><div class="text-gray-400 text-sm">Assets</div></div>
-                        <div><div class="text-5xl font-black text-[#ffbb00]">4</div><div class="text-gray-400 text-sm">Months</div></div>
-                        <div><div class="text-5xl font-black text-[#ffbb00]">∞</div><div class="text-gray-400 text-sm">Horizon</div></div>
-                    </div>
-                </div>
-                <div class="brutal-card-light bg-[#f2eee9] text-black self-start">
-                    <p class="text-xl font-mono italic font-medium">“Design is the first language of intelligence. Robotics and AI are my canvas to rewrite reality.”</p>
-                    <p class="mt-6 font-bold text-right">— Muhammad Azan Haider</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-24 pt-8 border-t border-white/20">
-                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 01</div><div class="font-bold text-xl">Graphic Design Core</div><div class="text-gray-400">Canva · Branding</div></div>
-                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 02</div><div class="font-bold text-xl">100+ Creations</div><div class="text-gray-400">Social assets & campaigns</div></div>
-                <div class="border-l-4 border-[#ff5500] pl-5"><div class="text-3xl font-mono font-black">Phase 03</div><div class="font-bold text-xl">AI Robotics</div><div class="text-gray-400">Autonomous systems</div></div>
-            </div>
+    <section id="about">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 2rem;">✨ About Azan</h2>
+      <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: clamp(1rem, 3vw, 1.25rem); margin-bottom: 1.5rem;">I'm Muhammad Azan, a 10-year-old designer from Pakistan. I started exploring Canva with curiosity and have now created over 160 unique designs. My dream is to become a Squadron Leader in the Pakistan Air Force, combining creativity with courage.</p>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-number">160+</span><br>Designs</div>
+          <div class="stat-item"><span class="stat-number">10</span><br>Years Old</div>
+          <div class="stat-item"><span class="stat-number">3</span><br>Certificates</div>
+          <div class="stat-item"><span class="stat-number">✈️</span><br>Squadron Leader</div>
         </div>
+      </div>
     </section>
 
-    <!-- SKILLS (chaos tags) -->
-    <section class="py-28 px-5 bg-[#f2eee9]">
-        <div class="max-w-7xl mx-auto text-center">
-            <span class="tag bg-black text-white">SKILLS // UNFILTERED</span>
-            <h2 class="text-6xl md:text-8xl font-black mt-5 tracking-tighter">COGNITIVE <br><span class="magenta-stroke">RADAR</span></h2>
-            <div class="flex flex-wrap gap-4 justify-center mt-12">
-                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] hover:text-black transition">GRAPHIC DESIGN</span>
-                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">ROBOTICS</span>
-                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">AI ENGINEERING</span>
-                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">CONTENT STRATEGY</span>
-                <span class="bg-black text-white px-6 py-3 text-xl md:text-2xl font-mono font-bold hover:bg-[#ff5500] transition">SYSTEMS THINKING</span>
-            </div>
+    <!-- ========== FEATURED DESIGNS WITH IMAGES ========== -->
+    <section id="designs">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">🎨 Featured Designs</h2>
+      <div class="featured-grid">
+        <!-- Design 1 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">🌟</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (1).png" alt="Social Media Post Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Event Banner Design</h3>
+          <p>Vibrant social media post with gradients and modern typography.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Social Media</span>
         </div>
+        <!-- Design 2 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">🖼️</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (2).png" alt="Creative Poster Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Pakistan Day Poster</h3>
+          <p>Patriotic green & white theme with professional layout.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Poster</span>
+        </div>
+        <!-- Design 3 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">✈️</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (3).png" alt="Aviation Dream Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Future Pilot Vision</h3>
+          <p>Air Force inspired artwork with motivational elements.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Graphic Art</span>
+        </div>
+      </div>
     </section>
 
-    <!-- PROJECTS : 100+ CANVA + 6 REAL IMAGES (posts) -->
-    <section class="py-24 px-5 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-wrap justify-between items-end mb-12 border-b-4 border-black pb-6">
-                <div><span class="tag bg-black text-white">VOLUME OVERLOAD</span><h2 class="text-5xl md:text-7xl font-black mt-3">100+ Canva<br><span class="text-[#ff5500]">Creations</span></h2></div>
-                <p class="text-gray-600 max-w-sm font-mono mt-4 md:mt-0">6 selected posts — design arsenal</p>
-            </div>
-            <!-- 6 posts gallery grid -->
-            <div class="gallery-grid">
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (1).png" alt="Canva post 1" class="project-img w-full" onerror="this.src='https://picsum.photos/id/20/600/400'">
-                    <div class="mt-4"><h3 class="text-2xl font-black">SOCIAL BLAST</h3><p class="font-mono text-sm">Instagram campaign · 45k reach</p></div>
-                </div>
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (2).png" alt="Canva post 2" class="project-img w-full" onerror="this.src='https://picsum.photos/id/26/600/400'">
-                    <div class="mt-4"><h3 class="text-2xl font-black">BRAND IDENTITY</h3><p class="font-mono text-sm">Logo suite + visual guidelines</p></div>
-                </div>
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="1 (3).png" alt="Canva post 3" class="project-img w-full" onerror="this.src='https://picsum.photos/id/32/600/400'">
-                    <div class="mt-4"><h3 class="text-2xl font-black">MOTION STORY</h3><p class="font-mono text-sm">Animated carousel · viral concept</p></div>
-                </div>
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="https://picsum.photos/id/15/600/400" alt="Canva post 4" class="project-img w-full">
-                    <div class="mt-4"><h3 class="text-2xl font-black">TYPOGRAPHY DROP</h3><p class="font-mono text-sm">Poster series · experimental</p></div>
-                </div>
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="https://picsum.photos/id/42/600/400" alt="Canva post 5" class="project-img w-full">
-                    <div class="mt-4"><h3 class="text-2xl font-black">UI MOCKUPS</h3><p class="font-mono text-sm">App interface design</p></div>
-                </div>
-                <div class="brutal-card-light group cursor-pointer overflow-hidden">
-                    <img src="https://picsum.photos/id/88/600/400" alt="Canva post 6" class="project-img w-full">
-                    <div class="mt-4"><h3 class="text-2xl font-black">EVENT FLYER</h3><p class="font-mono text-sm">high-conversion creative</p></div>
-                </div>
-            </div>
-            <div class="text-center mt-16"><div class="inline-block bg-black text-white px-6 py-3 font-mono text-xl">FULL ARCHIVE: 100+ DESIGNS — FROM STATIC TO KINETIC</div></div>
+    <!-- ========== CERTIFICATES SECTION WITH PDF SUPPORT ========== -->
+    <section id="certificates">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">📜 Certificates</h2>
+      <div class="certificate-preview">
+        <!-- Certificate 1 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate1.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">📄</span>
+            <!-- Optional: Add certificate thumbnail image -->
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb1.jpg" alt="Canva Essentials Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Canva Essentials</h4>
+          <p>Completed basic design course with excellence</p>
+          <span style="color:var(--highlight); font-weight:600;">⭐ Verified Certificate</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate1.pdf')">📜 View Certificate</button>
         </div>
+        <!-- Certificate 2 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate2.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">🏅</span>
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb2.jpg" alt="Creative Design Challenge Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Creative Design Challenge</h4>
+          <p>Young Creator Award 2024</p>
+          <span style="color:var(--highlight); font-weight:600;">🏅 Award Winner</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate2.pdf')">📜 View Certificate</button>
+        </div>
+        <!-- Certificate 3 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate3.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">📘</span>
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb3.jpg" alt="Graphic Design Beginner Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Graphic Design Foundation</h4>
+          <p>Digital Skills Certification</p>
+          <span style="color:var(--highlight); font-weight:600;">📘 Certified</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate3.pdf')">📜 View Certificate</button>
+        </div>
+      </div>
     </section>
 
-    <!-- CERTIFICATE LINK - SIMPLE (apni PDF ka naam yahan lagayein) -->
-    <section class="py-16 px-5 bg-[#f2eee9]">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="brutal-card-light border-4 border-black p-8">
-                <div class="text-6xl mb-4">📜🏆</div>
-                <h3 class="text-3xl font-black">Official Certification</h3>
-                <p class="font-mono my-3 text-gray-700">Verified Achievement — Graphic Design Mastery</p>
-                <a href="certificate.pdf" download id="certLink" class="button-brutal inline-block text-white px-8 py-3 font-bold">
-                    ⬇️ DOWNLOAD CERTIFICATE (PDF)
-                </a>
-                <p class="text-xs text-gray-400 mt-4 font-mono">*Place your PDF file named <span class="bg-black text-white px-2 py-0.5 rounded">certificate.pdf</span> in the same folder</p>
-            </div>
+    <section id="paf" style="background: linear-gradient(120deg, rgba(56,82,180,0.05) 0%, rgba(243,190,122,0.12) 100%); border-radius: clamp(1.5rem, 4vw, 3rem); margin: 2rem auto;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+        <div style="flex:1; min-width:250px;">
+          <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">✈️ Pakistan Air Force Dream</h2>
+          <p style="font-size: clamp(1rem, 3vw, 1.2rem); margin:1.5rem 0;">My goal is to become a Squadron Leader in the PAF. Creativity and discipline guide me every day.</p>
+          <blockquote style="border-left: 4px solid var(--highlight); padding-left: 1.5rem; font-weight: 600; color: var(--primary);">"The sky is not the limit, it's my destination."</blockquote>
         </div>
+        <div style="flex:1; text-align: center; font-size: clamp(3rem, 10vw, 5rem);">🛩️✨</div>
+      </div>
     </section>
 
-    <!-- FUTURE VISION : ROBOTICS + AI (brutalist core) -->
-    <section class="py-28 px-5 bg-[#151513] text-white">
-        <div class="max-w-6xl mx-auto text-center">
-            <div class="brutal-card bg-[#ff5500] text-black">
-                <span class="tag bg-black text-white inline-block mb-5">✦ 2040 READY ✦</span>
-                <h2 class="text-5xl md:text-7xl font-black leading-tight">Robotics & <span class="text-white">Artificial Intelligence</span></h2>
-                <p class="text-xl font-mono mt-8 max-w-2xl mx-auto">Azan's north star: building autonomous systems that merge design thinking with machine intelligence. Ethical AI, embodied robotics, next industrial revolution.</p>
-                <div class="flex flex-wrap justify-center gap-3 mt-10">
-                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Machine Learning</span>
-                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Computer Vision</span>
-                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">ROS 2.0</span>
-                    <span class="bg-black text-white px-4 py-2 text-sm font-mono">Edge AI</span>
-                </div>
-                <div class="mt-12 text-7xl flex justify-center gap-4">🤖 ⚙️ 🧬</div>
-            </div>
-        </div>
+    <section>
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">🚀 Skills & Journey</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div class="glass-card"><h3>Design Skills</h3><p>Canva: ▰▰▰▰▰ 95%</p><p>Social Media: ▰▰▰▰▰ 90%</p><p>Posters: ▰▰▰▰▰ 92%</p><p>Creativity: ▰▰▰▰▰ 98%</p></div>
+        <div class="glass-card"><h3>Achievement Timeline</h3><div class="timeline"><div class="timeline-item">Started Canva</div><div class="timeline-item">First Design</div><div class="timeline-item">50 Designs</div><div class="timeline-item">100+ Designs</div><div class="timeline-item">160+ Designs</div><div class="timeline-item">Certificates Earned</div><div class="timeline-item"><strong>PAF Goal ✈️</strong></div></div></div>
+      </div>
     </section>
 
-    <!-- CONTACT + LinkedIn (brutalist form + responsive) -->
-    <section class="py-24 px-5 bg-[#f2eee9]">
-        <div class="max-w-6xl mx-auto">
-            <div class="brutal-card-light border-4 border-black">
-                <div class="grid md:grid-cols-2 gap-10">
-                    <div>
-                        <h3 class="text-4xl font-black">Let's Forge<br><span class="text-[#ff5500]">The Future</span></h3>
-                        <p class="font-mono mt-3">Collaborate on robotics, AI, or creative projects.</p>
-                        <div class="mt-6 space-y-4">
-                            <input type="text" placeholder="Visionary Name" class="w-full border-2 border-black p-3 font-mono bg-transparent focus:outline-none focus:bg-white">
-                            <input type="email" placeholder="Cosmic Email" class="w-full border-2 border-black p-3 font-mono bg-transparent">
-                            <textarea rows="3" placeholder="Your message to the nexus" class="w-full border-2 border-black p-3 font-mono bg-transparent"></textarea>
-                            <button id="fakeSend" class="button-brutal text-white w-full py-3 text-center font-bold">SEND TRANSMISSION →</button>
-                            <p class="text-xs text-gray-500 text-center font-mono">demo UI · portfolio simulation</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col justify-center items-center border-t md:border-t-0 md:border-l border-black pt-8 md:pt-0 md:pl-10">
-                        <div class="text-center">
-                            <div class="text-xl font-mono">PRIMARY NETWORK</div>
-                            <div class="text-4xl font-black mt-2 flex gap-2">🔗 LinkedIn</div>
-                            <a href="#" id="linkedinMock" class="inline-flex mt-6 bg-black text-white px-8 py-3 font-mono font-bold hover:bg-[#ff5500] hover:text-black transition border-2 border-black">CONNECT →</a>
-                            <p class="text-gray-600 text-sm mt-6 font-mono">Muhammad Azan Haider · Future Architect</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="contact">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">📬 Contact Azan</h2>
+      <div class="glass-card" style="max-width: 700px; margin:2rem auto;">
+        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
+          <input type="text" id="senderName" placeholder="Your Name" style="padding:1rem; border-radius:2rem; border:1px solid var(--secondary); width:100%;" required>
+          <input type="text" id="senderMessage" placeholder="Your Message" style="padding:1rem; border-radius:2rem; border:1px solid var(--secondary); width:100%;" required>
+          <button type="submit" class="btn-primary" style="align-self: flex-start;">Send via WhatsApp ✈️</button>
+        </form>
+        <div style="margin-top:1.5rem; display: flex; gap:1.5rem; flex-wrap: wrap; font-size: clamp(0.85rem, 2.5vw, 1rem);">
+          <span>📧 azan.design@email.com</span>
+          <span>📞 03171243725</span>
         </div>
+        <div id="formFeedback" style="margin-top:1rem; color: var(--highlight); font-weight: 600;"></div>
+      </div>
     </section>
-    <footer class="py-8 text-center border-t-2 border-black text-sm font-mono">© 2025 · AZAN HAIDER · UNORDERED RADICALISM</footer>
-</main>
 
-<script>
-    // PRELOADER LOGIC
-    let preloadValue = 0;
-    const fillBar = document.getElementById('loaderFill');
-    const percentSpan = document.getElementById('preloaderPercent');
-    const preloaderDiv = document.getElementById('preloader');
-    const preloadInterval = setInterval(() => {
-        preloadValue += Math.floor(Math.random() * 18) + 5;
-        if (preloadValue >= 100) { preloadValue = 100; clearInterval(preloadInterval); }
-        fillBar.style.width = preloadValue + '%';
-        percentSpan.innerText = preloadValue + '%';
-        if (preloadValue === 100) {
-            setTimeout(() => {
-                gsap.to(preloaderDiv, { opacity: 0, duration: 0.9, ease: "power2.inOut", onComplete: () => preloaderDiv.style.display = 'none' });
-            }, 400);
+    <footer class="footer">
+      <p>© 2025 Muhammad Azan – Young Designer & Future Squadron Leader</p>
+      <p style="color: var(--secondary);">✈️ Soaring high with creativity and courage ✈️</p>
+    </footer>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    // ========== PRELOADER ==========
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          preloader.classList.add('hidden');
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 600);
         }
-    }, 110);
-</script>
+      }, 2000);
+    });
 
-<!-- Three.js Enhanced Brutalist Scene -->
-<script type="module">
+    // ========== CERTIFICATE PDF VIEWER ==========
+    window.openCertificate = function(pdfPath) {
+      const modal = document.getElementById('pdfModal');
+      const viewer = document.getElementById('pdfViewer');
+      viewer.src = pdfPath;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    document.getElementById('closePdfModal').addEventListener('click', () => {
+      const modal = document.getElementById('pdfModal');
+      const viewer = document.getElementById('pdfViewer');
+      viewer.src = '';
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    document.getElementById('pdfModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        const viewer = document.getElementById('pdfViewer');
+        viewer.src = '';
+        e.currentTarget.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ========== THREE.JS SCENE ==========
     import * as THREE from 'three';
-    const container = document.getElementById('three-canvas');
+
+    const canvas = document.getElementById('hero-canvas');
     const scene = new THREE.Scene();
     scene.background = null;
-    const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 14);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    container.appendChild(renderer.domElement);
     
-    const coreGroup = new THREE.Group();
-    const colorsArr = [0xff5500, 0xffbb00, 0x66ff33, 0xff33cc];
-    // floating shards
-    for (let i = 0; i < 140; i++) {
-        const geo = new THREE.DodecahedronGeometry(0.18);
-        const mat = new THREE.MeshStandardMaterial({ color: colorsArr[Math.floor(Math.random() * colorsArr.length)], roughness: 0.3, metalness: 0.7 });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set((Math.random() - 0.5) * 9, (Math.random() - 0.5) * 6, (Math.random() - 0.5) * 7 - 2);
-        mesh.scale.setScalar(0.7 + Math.random() * 0.8);
-        coreGroup.add(mesh);
-    }
-    // chaotic TorusKnot
-    const knotGeo = new THREE.TorusKnotGeometry(1.6, 0.22, 220, 32, 3, 4);
-    const knotMat = new THREE.MeshStandardMaterial({ color: 0xff5500, wireframe: false, emissive: 0xff2200, emissiveIntensity: 0.35 });
-    const knot = new THREE.Mesh(knotGeo, knotMat);
-    coreGroup.add(knot);
-    
-    scene.add(coreGroup);
-    const ambientLight = new THREE.AmbientLight(0x333333);
-    scene.add(ambientLight);
-    const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
-    dirLight.position.set(2, 3, 4);
-    scene.add(dirLight);
-    const backFill = new THREE.PointLight(0xffaa66, 0.5);
-    backFill.position.set(-2, 1, -3);
-    scene.add(backFill);
-    
-    let mouseX3D = 0, mouseY3D = 0;
-    window.addEventListener('mousemove', (e) => {
-        mouseX3D = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY3D = (e.clientY / window.innerHeight) * 2 - 1;
-    });
-    
-    function animateScene() {
-        requestAnimationFrame(animateScene);
-        coreGroup.rotation.y += 0.002;
-        coreGroup.rotation.x = Math.sin(Date.now() * 0.0003) * 0.12;
-        knot.rotation.x += 0.007;
-        knot.rotation.z += 0.005;
-        camera.position.x += (mouseX3D * 0.7 - camera.position.x) * 0.045;
-        camera.position.y += (-mouseY3D * 0.5 - camera.position.y) * 0.045;
-        camera.lookAt(0, 0, 0);
-        renderer.render(scene, camera);
-    }
-    animateScene();
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-</script>
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.8, 8.5);
+    camera.lookAt(0, 0.2, 0);
 
-<!-- GSAP + ScrollTrigger + Interactions -->
-<script>
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.from("h1", { opacity: 0, y: 70, duration: 1, delay: 0.2 });
-    gsap.from("#explodeBtn", { opacity: 0, scale: 0.9, duration: 0.6, delay: 0.7 });
-    gsap.utils.toArray("section").forEach((sec, index) => {
-        if(index !== 0) gsap.from(sec, { scrollTrigger: { trigger: sec, start: "top 85%" }, opacity: 0, y: 55, duration: 0.85 });
+    const renderer = new THREE.WebGLRenderer({ 
+      canvas, 
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
     });
-    gsap.from(".gallery-grid .brutal-card-light", { scrollTrigger: { trigger: ".gallery-grid", start: "top 80%" }, opacity: 0, y: 40, stagger: 0.08, duration: 0.7 });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
     
-    // Brutal cursor movement
-    const brutalCursor = document.getElementById('brutalCursor');
-    document.addEventListener('mousemove', (e) => {
-        gsap.to(brutalCursor, { x: e.clientX - 12, y: e.clientY - 12, duration: 0.04 });
+    const colors = [0x3852B4, 0x5E7AC4, 0xF3BE7A, 0xF08D39];
+    
+    const particlesGeo = new THREE.BufferGeometry();
+    const particlesCount = 600;
+    const posArray = new Float32Array(particlesCount * 3);
+    const colorArray = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+      posArray[i] = (Math.random() - 0.5) * 14;
+      posArray[i+1] = (Math.random() - 0.5) * 8;
+      posArray[i+2] = (Math.random() - 0.5) * 10;
+      const col = new THREE.Color(colors[Math.floor(Math.random() * colors.length)]);
+      colorArray[i] = col.r;
+      colorArray[i+1] = col.g;
+      colorArray[i+2] = col.b;
+    }
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+    const particlesMat = new THREE.PointsMaterial({
+      size: 0.06, vertexColors: true, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9,
+    });
+    const particleSystem = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(particleSystem);
+
+    const shapesGroup = new THREE.Group();
+    const geometries = [
+      new THREE.IcosahedronGeometry(0.5), new THREE.OctahedronGeometry(0.45), new THREE.TetrahedronGeometry(0.4),
+      new THREE.DodecahedronGeometry(0.35), new THREE.TorusGeometry(0.4, 0.15, 8, 20), new THREE.ConeGeometry(0.4, 0.7, 8),
+    ];
+    const shapeItems = [];
+    for (let i = 0; i < 20; i++) {
+      const geo = geometries[Math.floor(Math.random() * geometries.length)];
+      const mat = new THREE.MeshStandardMaterial({
+        color: colors[Math.floor(Math.random() * colors.length)], roughness: 0.25, metalness: 0.5,
+        emissive: new THREE.Color(0x111122), transparent: true, opacity: 0.85
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      const radius = 2.9 + Math.random() * 2.7;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.asin((Math.random() * 2) - 1);
+      mesh.position.x = Math.cos(theta) * Math.cos(phi) * radius;
+      mesh.position.y = Math.sin(phi) * radius * 0.8;
+      mesh.position.z = Math.sin(theta) * Math.cos(phi) * radius;
+      mesh.userData = { speed: 0.002 + Math.random()*0.008, rotSpeed: 0.005+Math.random()*0.02, offset: Math.random()*Math.PI*2, originalY: mesh.position.y };
+      shapesGroup.add(mesh);
+      shapeItems.push(mesh);
+    }
+    scene.add(shapesGroup);
+
+    function createFighterJet(colorHex = 0x5E7AC4) {
+      const group = new THREE.Group();
+      const bodyMat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.3, metalness: 0.7 });
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 0.9, 8), bodyMat);
+      body.rotation.x = Math.PI/2; group.add(body);
+      const nose = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.25, 8), bodyMat);
+      nose.position.z = 0.55; nose.rotation.x = Math.PI/2; group.add(nose);
+      const wingMat = new THREE.MeshStandardMaterial({ color: 0x3852B4, roughness: 0.4, metalness: 0.6 });
+      const wings = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.08, 0.25), wingMat);
+      wings.position.set(0, 0, -0.05); group.add(wings);
+      const tailWings = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.06, 0.18), wingMat);
+      tailWings.position.set(0, 0, -0.35); group.add(tailWings);
+      const fin = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.2, 0.15), new THREE.MeshStandardMaterial({ color: 0xF3BE7A, roughness: 0.5 }));
+      fin.position.set(0, 0.18, -0.2); group.add(fin);
+      const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.2, emissive: new THREE.Color(0x001122) }));
+      cockpit.position.set(0, 0.08, 0.15); group.add(cockpit);
+      return group;
+    }
+
+    const jetsGroup = new THREE.Group();
+    const jetPositions = [
+      { x: -2.2, y: 1.1, z: -1.2, rotY: 0.3, rotX: -0.1 },
+      { x: 2.4, y: -0.9, z: -1.5, rotY: -0.4, rotX: 0.2 },
+      { x: 0.5, y: 1.6, z: 0.8, rotY: 0.8, rotX: -0.3 },
+      { x: -1.8, y: -1.2, z: 1.0, rotY: -0.7, rotX: 0.1 },
+    ];
+    jetPositions.forEach(pos => {
+      const jet = createFighterJet(0x5E7AC4);
+      jet.position.set(pos.x, pos.y, pos.z);
+      jet.rotation.y = pos.rotY; jet.rotation.x = pos.rotX;
+      jet.userData = { speed: 0.003 + Math.random()*0.006, offset: Math.random()*10, baseY: pos.y };
+      jetsGroup.add(jet);
+    });
+    scene.add(jetsGroup);
+
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      shapesGroup.rotation.y += 0.0012;
+      shapesGroup.rotation.x = mouseY * 0.15;
+      shapesGroup.rotation.z = mouseX * 0.1;
+      shapeItems.forEach(item => {
+        item.rotation.x += item.userData.rotSpeed;
+        item.rotation.y += item.userData.rotSpeed*0.7;
+        item.position.y = item.userData.originalY + Math.sin(Date.now()*item.userData.speed + item.userData.offset)*0.15;
+      });
+      particleSystem.rotation.y += 0.0003;
+      particleSystem.rotation.x += 0.0001;
+      jetsGroup.children.forEach(jet => {
+        jet.position.y = jet.userData.baseY + Math.sin(Date.now()*jet.userData.speed + jet.userData.offset)*0.2;
+        jet.rotation.z += 0.005;
+      });
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.glass-card, .hero-content, section h2').forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('senderName').value.trim();
+      const message = document.getElementById('senderMessage').value.trim();
+      const phoneNumber = '03171243725';
+      if (name && message) {
+        const whatsappMessage = `Hello Azan! My name is ${encodeURIComponent(name)}. ${encodeURIComponent(message)}`;
+        const whatsappURL = `https://wa.me/92${phoneNumber.substring(1)}?text=${whatsappMessage}`;
+        document.getElementById('formFeedback').innerText = '✅ Opening WhatsApp...';
+        window.open(whatsappURL, '_blank');
+      } else {
+        document.getElementById('formFeedback').innerText = 'Please fill all fields.';
+        setTimeout(() => { document.getElementById('formFeedback').innerText = ''; }, 3000);
+      }
     });
     
-    // Buttons interactions
-    document.getElementById('explodeBtn').addEventListener('click', () => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' }));
-    document.getElementById('fakeSend').addEventListener('click', () => alert("⚡ Transmission received. Azan will contact you soon."));
-    document.getElementById('linkedinMock').addEventListener('click', (e) => { e.preventDefault(); alert("🔗 LinkedIn: Muhammad Azan Haider — pioneering robotics & AI frontier."); });
-    
-    // Certificate link feedback
-    document.getElementById('certLink')?.addEventListener('click', function(e) {
-        // Just a feedback - file will download if exists
-        console.log("Downloading certificate...");
-    });
-    
-    // micro sound hover
-    const interactiveElements = document.querySelectorAll('button, a, .brutal-card-light');
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            if (window.AudioContext) {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.frequency.value = 1100;
-                gain.gain.value = 0.025;
-                osc.start();
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
-                osc.stop(audioCtx.currentTime + 0.12);
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-            }
-        });
-    });
-</script>
+    console.log('✈️ Fighter jets ready! Images & PDF certificates configured.');
+  </script>
 </body>
 </html>
