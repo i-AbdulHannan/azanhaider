@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="Muhammad Azan - 10-year-old Canva designer with 160+ designs, future Pakistan Air Force Squadron Leader.">
+  <meta name="theme-color" content="#3852B4">
+  <title>Muhammad Azan | Young Designer & Future Squadron Leader ✈️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+    body {
+      background: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1a1f36;
+      line-height: 1.5;
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+    }
+    h1, h2, h3, .stat-number {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+    }
+    :root {
+      --primary: #3852B4;
+      --secondary: #5E7AC4;
+      --accent: #F3BE7A;
+      --highlight: #F08D39;
+      --white: #FFFFFF;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(56, 82, 180, 0.2);
+      --shadow-sm: 0 8px 20px rgba(56, 82, 180, 0.08);
+      --shadow-md: 0 20px 35px rgba(56, 82, 180, 0.12);
+      --shadow-lg: 0 30px 50px rgba(56, 82, 180, 0.2);
+    }
+
+    /* ========== FIGHTER JET PRELOADER ========== */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #FFFFFF;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      overflow: hidden;
+    }
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .preloader-jet-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: jetPulse 1.5s ease-in-out infinite;
+    }
+    .preloader-jet {
+      font-size: 70px;
+      animation: flyJet 1.2s ease-in-out infinite;
+      display: block;
+      text-align: center;
+    }
+    .preloader-trail {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 8px;
+      background: linear-gradient(90deg, transparent, var(--highlight), var(--accent), transparent);
+      border-radius: 50%;
+      animation: trailGlow 0.9s ease-in-out infinite;
+    }
+    .preloader-text {
+      margin-top: 25px;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      animation: textBlink 1.4s infinite;
+    }
+    .loading-bar {
+      width: 180px;
+      height: 5px;
+      background: #e0e7ff;
+      border-radius: 10px;
+      margin-top: 18px;
+      overflow: hidden;
+    }
+    .loading-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--highlight));
+      border-radius: 10px;
+      animation: fillBar 2.2s ease-out forwards;
+    }
+
+    @keyframes jetPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    @keyframes flyJet {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(-3deg); }
+      75% { transform: translateY(6px) rotate(3deg); }
+    }
+    @keyframes trailGlow {
+      0%, 100% { opacity: 0.5; width: 50px; }
+      50% { opacity: 1; width: 75px; }
+    }
+    @keyframes textBlink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    @keyframes fillBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    #hero-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--glass-border);
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: clamp(1.2rem, 4vw, 1.6rem);
+      color: var(--primary);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(0.8rem, 2vw, 2rem);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #1a1f36;
+      font-weight: 600;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      transition: color 0.3s;
+      position: relative;
+      white-space: nowrap;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--highlight);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      padding: clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 2rem);
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: transparent;
+      position: relative;
+      z-index: 3;
+      padding: 1rem;
+    }
+    .hero-content {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: clamp(2rem, 5vw, 3.5rem);
+      padding: clamp(1.8rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.8rem);
+      box-shadow: var(--shadow-lg);
+      max-width: 950px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .hero-sub {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2vw, 1.5rem);
+      margin: 2rem 0;
+      font-weight: 600;
+    }
+    .hero-sub span {
+      background: rgba(94, 122, 196, 0.12);
+      padding: 0.5rem 1.3rem;
+      border-radius: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      backdrop-filter: blur(4px);
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      white-space: nowrap;
+    }
+    .cta-group {
+      display: flex;
+      gap: clamp(1rem, 3vw, 1.5rem);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .btn-primary, .btn-outline {
+      padding: clamp(0.7rem, 2vw, 0.9rem) clamp(1.5rem, 4vw, 2.4rem);
+      border-radius: 3rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 10px 20px rgba(56,82,180,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-4px);
+      box-shadow: 0 22px 32px rgba(56,82,180,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .glass-card {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(56,82,180,0.2);
+      border-radius: clamp(1.5rem, 3vw, 2.2rem);
+      padding: clamp(1.2rem, 3vw, 2rem);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      width: 100%;
+    }
+    .glass-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      margin-top: 2rem;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--highlight);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(1.2rem, 3vw, 2.2rem);
+      margin-top: 2.5rem;
+    }
+    .design-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .design-img {
+      height: clamp(140px, 25vw, 200px);
+      border-radius: 1.5rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+      overflow: hidden;
+      background: #e0e7ff;
+    }
+    .design-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .design-card:hover .design-img img {
+      transform: scale(1.08);
+    }
+    .design-img .placeholder-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .certificate-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: clamp(1rem, 3vw, 2rem);
+      margin-top: 2rem;
+    }
+    .cert-card {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .cert-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+    .cert-img-container {
+      height: 200px;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      background: #f0f4ff;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cert-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1rem;
+    }
+    .cert-img-container .pdf-icon {
+      font-size: 4rem;
+      opacity: 0.6;
+    }
+    .cert-view-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+    }
+    .cert-view-btn:hover {
+      background: var(--secondary);
+    }
+
+    /* PDF Modal */
+    .pdf-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .pdf-modal.active {
+      display: flex;
+    }
+    .pdf-modal-content {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 900px;
+      height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .pdf-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--primary);
+      z-index: 10;
+      background: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .pdf-modal-close:hover {
+      background: #f0f0f0;
+    }
+    .pdf-modal iframe {
+      flex: 1;
+      border: none;
+      border-radius: 1rem;
+      width: 100%;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.2rem, 3vw, 2rem);
+      margin-top: 1.5rem;
+      position: relative;
+      padding-left: clamp(1.5rem, 4vw, 2.2rem);
+      border-left: 3px dashed var(--secondary);
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: clamp(1rem, 3vw, 1.8rem);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+    }
+    .timeline-item::before {
+      content: '✈️';
+      position: absolute;
+      left: -2.75rem;
+      background: white;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      top: 0;
+    }
+
+    .footer {
+      text-align: center;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--glass-border);
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.8rem 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .nav-links {
+        justify-content: center;
+        width: 100%;
+      }
+      section {
+        padding-top: 6rem;
+      }
+      .hero {
+        padding-top: 5rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .hero-sub span {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+      }
+      .btn-primary, .btn-outline {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== FIGHTER JET PRELOADER ========== -->
+  <div id="preloader">
+    <div class="preloader-jet-container">
+      <span class="preloader-jet">✈️</span>
+      <div class="preloader-trail"></div>
+    </div>
+    <div class="preloader-text">PREPARING FOR TAKEOFF</div>
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
+    </div>
+  </div>
+
+  <!-- PDF Modal -->
+  <div class="pdf-modal" id="pdfModal">
+    <div class="pdf-modal-content">
+      <span class="pdf-modal-close" id="closePdfModal">&times;</span>
+      <iframe id="pdfViewer" src="" title="Certificate PDF Viewer"></iframe>
+    </div>
+  </div>
+
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="content">
+    <nav class="navbar">
+      <div class="logo">✈️ AZAN</div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#designs">Designs</a>
+        <a href="#certificates">Certificates</a>
+        <a href="#paf">PAF Dream</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Muhammad Azan<br>Young Canva Designer & Future Squadron Leader</h1>
+        <div class="hero-sub">
+          <span>⭐ 10 Years Old</span>
+          <span>🎨 160+ Designs</span>
+          <span>📜 Certificates</span>
+          <span>✈️ Future PAF Leader</span>
+        </div>
+        <div class="cta-group">
+          <a href="#designs" class="btn-primary">View Portfolio</a>
+          <a href="#contact" class="btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem); margin-bottom: 2rem;">✨ About Azan</h2>
+      <div class="glass-card" style="max-width: 900px; margin: 0 auto;">
+        <p style="font-size: clamp(1rem, 3vw, 1.25rem); margin-bottom: 1.5rem;">I'm Muhammad Azan, a 10-year-old designer from Pakistan. I started exploring Canva with curiosity and have now created over 160 unique designs. My dream is to become a Squadron Leader in the Pakistan Air Force, combining creativity with courage.</p>
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-number">160+</span><br>Designs</div>
+          <div class="stat-item"><span class="stat-number">10</span><br>Years Old</div>
+          <div class="stat-item"><span class="stat-number">3</span><br>Certificates</div>
+          <div class="stat-item"><span class="stat-number">✈️</span><br>Squadron Leader</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FEATURED DESIGNS WITH IMAGES ========== -->
+    <section id="designs">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">🎨 Featured Designs</h2>
+      <div class="featured-grid">
+        <!-- Design 1 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">🌟</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (1).png" alt="Social Media Post Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Event Banner Design</h3>
+          <p>Vibrant social media post with gradients and modern typography.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Social Media</span>
+        </div>
+        <!-- Design 2 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">🖼️</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (2).png" alt="Creative Poster Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Pakistan Day Poster</h3>
+          <p>Patriotic green & white theme with professional layout.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Poster</span>
+        </div>
+        <!-- Design 3 -->
+        <div class="glass-card design-card">
+          <div class="design-img">
+            <span class="placeholder-icon">✈️</span>
+            <!-- REPLACE: Add your image path here -->
+            <img src="1 (3).png" alt="Aviation Dream Design" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';" loading="lazy">
+          </div>
+          <h3>Future Pilot Vision</h3>
+          <p>Air Force inspired artwork with motivational elements.</p>
+          <span style="background:var(--accent); padding:0.2rem 1rem; border-radius:1rem; font-size:0.85rem;">Graphic Art</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CERTIFICATES SECTION WITH PDF SUPPORT ========== -->
+    <section id="certificates">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">📜 Certificates</h2>
+      <div class="certificate-preview">
+        <!-- Certificate 1 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate1.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">📄</span>
+            <!-- Optional: Add certificate thumbnail image -->
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb1.jpg" alt="Canva Essentials Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Canva Essentials</h4>
+          <p>Completed basic design course with excellence</p>
+          <span style="color:var(--highlight); font-weight:600;">⭐ Verified Certificate</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate1.pdf')">📜 View Certificate</button>
+        </div>
+        <!-- Certificate 2 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate2.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">🏅</span>
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb2.jpg" alt="Creative Design Challenge Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Creative Design Challenge</h4>
+          <p>Young Creator Award 2024</p>
+          <span style="color:var(--highlight); font-weight:600;">🏅 Award Winner</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate2.pdf')">📜 View Certificate</button>
+        </div>
+        <!-- Certificate 3 -->
+        <div class="glass-card cert-card" data-pdf="certificates/certificate3.pdf">
+          <div class="cert-img-container">
+            <span class="pdf-icon">📘</span>
+            <!-- REPLACE: Add thumbnail image path -->
+            <img src="certificates/thumb3.jpg" alt="Graphic Design Beginner Certificate" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; padding:1rem;" onload="this.style.display='block'; this.previousElementSibling.style.display='none';" loading="lazy">
+          </div>
+          <h4>Graphic Design Foundation</h4>
+          <p>Digital Skills Certification</p>
+          <span style="color:var(--highlight); font-weight:600;">📘 Certified</span>
+          <br>
+          <button class="cert-view-btn" onclick="openCertificate('certificates/certificate3.pdf')">📜 View Certificate</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="paf" style="background: linear-gradient(120deg, rgba(56,82,180,0.05) 0%, rgba(243,190,122,0.12) 100%); border-radius: clamp(1.5rem, 4vw, 3rem); margin: 2rem auto;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+        <div style="flex:1; min-width:250px;">
+          <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">✈️ Pakistan Air Force Dream</h2>
+          <p style="font-size: clamp(1rem, 3vw, 1.2rem); margin:1.5rem 0;">My goal is to become a Squadron Leader in the PAF. Creativity and discipline guide me every day.</p>
+          <blockquote style="border-left: 4px solid var(--highlight); padding-left: 1.5rem; font-weight: 600; color: var(--primary);">"The sky is not the limit, it's my destination."</blockquote>
+        </div>
+        <div style="flex:1; text-align: center; font-size: clamp(3rem, 10vw, 5rem);">🛩️✨</div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">🚀 Skills & Journey</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div class="glass-card"><h3>Design Skills</h3><p>Canva: ▰▰▰▰▰ 95%</p><p>Social Media: ▰▰▰▰▰ 90%</p><p>Posters: ▰▰▰▰▰ 92%</p><p>Creativity: ▰▰▰▰▰ 98%</p></div>
+        <div class="glass-card"><h3>Achievement Timeline</h3><div class="timeline"><div class="timeline-item">Started Canva</div><div class="timeline-item">First Design</div><div class="timeline-item">50 Designs</div><div class="timeline-item">100+ Designs</div><div class="timeline-item">160+ Designs</div><div class="timeline-item">Certificates Earned</div><div class="timeline-item"><strong>PAF Goal ✈️</strong></div></div></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 style="color: var(--primary); font-size: clamp(1.8rem, 5vw, 2.5rem);">📬 Contact Azan</h2>
+      <div class="glass-card" style="max-width: 700px; margin:2rem auto;">
+        <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
+          <input type="text" id="senderName" placeholder="Your Name" style="padding:1rem; border-radius:2rem; border:1px solid var(--secondary); width:100%;" required>
+          <input type="text" id="senderMessage" placeholder="Your Message" style="padding:1rem; border-radius:2rem; border:1px solid var(--secondary); width:100%;" required>
+          <button type="submit" class="btn-primary" style="align-self: flex-start;">Send via WhatsApp ✈️</button>
+        </form>
+        <div style="margin-top:1.5rem; display: flex; gap:1.5rem; flex-wrap: wrap; font-size: clamp(0.85rem, 2.5vw, 1rem);">
+          <span>📧 azan.design@email.com</span>
+          <span>📞 03171243725</span>
+        </div>
+        <div id="formFeedback" style="margin-top:1rem; color: var(--highlight); font-weight: 600;"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 Muhammad Azan – Young Designer & Future Squadron Leader</p>
+      <p style="color: var(--secondary);">✈️ Soaring high with creativity and courage ✈️</p>
+    </footer>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    // ========== PRELOADER ==========
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          preloader.classList.add('hidden');
+          setTimeout(() => {
+            if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+          }, 600);
+        }
+      }, 2000);
+    });
+
+    // ========== CERTIFICATE PDF VIEWER ==========
+    window.openCertificate = function(pdfPath) {
+      const modal = document.getElementById('pdfModal');
+      const viewer = document.getElementById('pdfViewer');
+      viewer.src = pdfPath;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    document.getElementById('closePdfModal').addEventListener('click', () => {
+      const modal = document.getElementById('pdfModal');
+      const viewer = document.getElementById('pdfViewer');
+      viewer.src = '';
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    document.getElementById('pdfModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        const viewer = document.getElementById('pdfViewer');
+        viewer.src = '';
+        e.currentTarget.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // ========== THREE.JS SCENE ==========
+    import * as THREE from 'three';
+
+    const canvas = document.getElementById('hero-canvas');
+    const scene = new THREE.Scene();
+    scene.background = null;
+    
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.8, 8.5);
+    camera.lookAt(0, 0.2, 0);
+
+    const renderer = new THREE.WebGLRenderer({ 
+      canvas, 
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
+    
+    const colors = [0x3852B4, 0x5E7AC4, 0xF3BE7A, 0xF08D39];
+    
+    const particlesGeo = new THREE.BufferGeometry();
+    const particlesCount = 600;
+    const posArray = new Float32Array(particlesCount * 3);
+    const colorArray = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+      posArray[i] = (Math.random() - 0.5) * 14;
+      posArray[i+1] = (Math.random() - 0.5) * 8;
+      posArray[i+2] = (Math.random() - 0.5) * 10;
+      const col = new THREE.Color(colors[Math.floor(Math.random() * colors.length)]);
+      colorArray[i] = col.r;
+      colorArray[i+1] = col.g;
+      colorArray[i+2] = col.b;
+    }
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+    const particlesMat = new THREE.PointsMaterial({
+      size: 0.06, vertexColors: true, blending: THREE.AdditiveBlending, transparent: true, opacity: 0.9,
+    });
+    const particleSystem = new THREE.Points(particlesGeo, particlesMat);
+    scene.add(particleSystem);
+
+    const shapesGroup = new THREE.Group();
+    const geometries = [
+      new THREE.IcosahedronGeometry(0.5), new THREE.OctahedronGeometry(0.45), new THREE.TetrahedronGeometry(0.4),
+      new THREE.DodecahedronGeometry(0.35), new THREE.TorusGeometry(0.4, 0.15, 8, 20), new THREE.ConeGeometry(0.4, 0.7, 8),
+    ];
+    const shapeItems = [];
+    for (let i = 0; i < 20; i++) {
+      const geo = geometries[Math.floor(Math.random() * geometries.length)];
+      const mat = new THREE.MeshStandardMaterial({
+        color: colors[Math.floor(Math.random() * colors.length)], roughness: 0.25, metalness: 0.5,
+        emissive: new THREE.Color(0x111122), transparent: true, opacity: 0.85
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      const radius = 2.9 + Math.random() * 2.7;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.asin((Math.random() * 2) - 1);
+      mesh.position.x = Math.cos(theta) * Math.cos(phi) * radius;
+      mesh.position.y = Math.sin(phi) * radius * 0.8;
+      mesh.position.z = Math.sin(theta) * Math.cos(phi) * radius;
+      mesh.userData = { speed: 0.002 + Math.random()*0.008, rotSpeed: 0.005+Math.random()*0.02, offset: Math.random()*Math.PI*2, originalY: mesh.position.y };
+      shapesGroup.add(mesh);
+      shapeItems.push(mesh);
+    }
+    scene.add(shapesGroup);
+
+    function createFighterJet(colorHex = 0x5E7AC4) {
+      const group = new THREE.Group();
+      const bodyMat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.3, metalness: 0.7 });
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 0.9, 8), bodyMat);
+      body.rotation.x = Math.PI/2; group.add(body);
+      const nose = new THREE.Mesh(new THREE.ConeGeometry(0.18, 0.25, 8), bodyMat);
+      nose.position.z = 0.55; nose.rotation.x = Math.PI/2; group.add(nose);
+      const wingMat = new THREE.MeshStandardMaterial({ color: 0x3852B4, roughness: 0.4, metalness: 0.6 });
+      const wings = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.08, 0.25), wingMat);
+      wings.position.set(0, 0, -0.05); group.add(wings);
+      const tailWings = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.06, 0.18), wingMat);
+      tailWings.position.set(0, 0, -0.35); group.add(tailWings);
+      const fin = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.2, 0.15), new THREE.MeshStandardMaterial({ color: 0xF3BE7A, roughness: 0.5 }));
+      fin.position.set(0, 0.18, -0.2); group.add(fin);
+      const cockpit = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.2, emissive: new THREE.Color(0x001122) }));
+      cockpit.position.set(0, 0.08, 0.15); group.add(cockpit);
+      return group;
+    }
+
+    const jetsGroup = new THREE.Group();
+    const jetPositions = [
+      { x: -2.2, y: 1.1, z: -1.2, rotY: 0.3, rotX: -0.1 },
+      { x: 2.4, y: -0.9, z: -1.5, rotY: -0.4, rotX: 0.2 },
+      { x: 0.5, y: 1.6, z: 0.8, rotY: 0.8, rotX: -0.3 },
+      { x: -1.8, y: -1.2, z: 1.0, rotY: -0.7, rotX: 0.1 },
+    ];
+    jetPositions.forEach(pos => {
+      const jet = createFighterJet(0x5E7AC4);
+      jet.position.set(pos.x, pos.y, pos.z);
+      jet.rotation.y = pos.rotY; jet.rotation.x = pos.rotX;
+      jet.userData = { speed: 0.003 + Math.random()*0.006, offset: Math.random()*10, baseY: pos.y };
+      jetsGroup.add(jet);
+    });
+    scene.add(jetsGroup);
+
+    let mouseX = 0, mouseY = 0;
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      shapesGroup.rotation.y += 0.0012;
+      shapesGroup.rotation.x = mouseY * 0.15;
+      shapesGroup.rotation.z = mouseX * 0.1;
+      shapeItems.forEach(item => {
+        item.rotation.x += item.userData.rotSpeed;
+        item.rotation.y += item.userData.rotSpeed*0.7;
+        item.position.y = item.userData.originalY + Math.sin(Date.now()*item.userData.speed + item.userData.offset)*0.15;
+      });
+      particleSystem.rotation.y += 0.0003;
+      particleSystem.rotation.x += 0.0001;
+      jetsGroup.children.forEach(jet => {
+        jet.position.y = jet.userData.baseY + Math.sin(Date.now()*jet.userData.speed + jet.userData.offset)*0.2;
+        jet.rotation.z += 0.005;
+      });
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.glass-card, .hero-content, section h2').forEach(el => {
+      el.style.opacity = 0;
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('senderName').value.trim();
+      const message = document.getElementById('senderMessage').value.trim();
+      const phoneNumber = '03171243725';
+      if (name && message) {
+        const whatsappMessage = `Hello Azan! My name is ${encodeURIComponent(name)}. ${encodeURIComponent(message)}`;
+        const whatsappURL = `https://wa.me/92${phoneNumber.substring(1)}?text=${whatsappMessage}`;
+        document.getElementById('formFeedback').innerText = '✅ Opening WhatsApp...';
+        window.open(whatsappURL, '_blank');
+      } else {
+        document.getElementById('formFeedback').innerText = 'Please fill all fields.';
+        setTimeout(() => { document.getElementById('formFeedback').innerText = ''; }, 3000);
+      }
+    });
+    
+    console.log('✈️ Fighter jets ready! Images & PDF certificates configured.');
+  </script>
+</body>
+</html>
